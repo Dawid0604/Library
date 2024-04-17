@@ -1,0 +1,67 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <img id="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="rounded mx-auto d-block"/>
+
+    @if (!isLoggedIn) {
+      <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+        <div class="form-group">
+          <label for="Username">Username</label>
+          <input type="text"
+                 class="form-control"
+                 name="username"
+                 [(ngModel)]="form.username"
+                 required
+                 minlength="3"
+                 max="64"
+                 #username="ngModel"
+                 [ngClass]="{ 'is-invalid': f.submitted && username.errors }"/>
+
+            @if (username.errors && f.submitted) {
+              <div class="invalid-feedback">
+                @if (username.errors['required']) {
+                  <div>Username is required</div>
+                }
+              </div>
+            }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="form.password"
+          required
+          minlength="6"
+          #password="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"/>
+
+          @if (password.errors && f.submitted) {
+            <div class="invalid-feedback">
+              @if (password.errors['required']) {
+                <div>Password is requried</div>
+              }
+
+              @if (password.errors['minlength']) {
+                <div>Password must be least at 6 characters</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">Sign up</button>
+        </div>
+
+        @if (f.submitted && isLoginFailed) {
+          <div class="alert alert-warning">
+            Login failed! <br/> {{ errorMessage }}
+          </div>
+        }
+      </form>
+
+    } @else {
+      <div class="alert alert-success">Successful login</div>
+    }
+  </div>
+</div>

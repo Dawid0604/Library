@@ -1,0 +1,154 @@
+#main-container {
+  min-height: 95vh;
+  height: auto;
+  display: flex;
+}
+
+.book {
+  background-color: #101212;
+  color: #ece5d8;
+  height: 25%;
+}
+
+.details {
+  width: 100%;
+  background-color: gray;
+}
+
+.details > div {
+  width: 50%;
+  text-align: center;
+}
+
+.details > div:first-child {
+  border-right: 2px solid black;
+  box-sizing: border-box;
+}
+
+.card > img {
+  height: 75%;
+}
+
+.card {
+  cursor: pointer;
+  width: 17em;
+  margin: 1em;
+  max-height: 50%;
+}
+
+.price {
+  background-color: rgb(209, 147, 32);
+}
+
+main {
+  width: 90%;
+  height: auto;
+}
+
+.books {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+nav {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  flex-wrap: wrap;
+}
+
+#pagination {
+  height: 15%;
+  width: 100%;
+  background-color: orange;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-bottom: 2%;
+}
+
+#pagination button {
+  width: 75%;
+  margin: 1%;
+}
+
+#categories {
+  height: 85%;
+  width: 100%;
+}
+
+#category {
+  width: 100%;
+  height: 3vh;
+  color: white;
+  text-align: center;
+  padding: 1%;
+  font-size: medium;
+  box-sizing: border-box;
+  background-color: darkslategray;
+}
+
+.category-box {
+  display: flex;
+  width: 100%;
+  height: auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-box button {
+  width: 100%;
+  margin-bottom: 1%;
+  border: none;
+  border-bottom: 1px solid black;
+  transition-duration: 250ms;
+}
+
+.category-box button:hover {
+  background-color: gray;
+}
+
+#selected-category {
+  font-size: medium;
+  box-sizing: border-box;
+  background-color: darkslategray;
+  height: auto;
+  text-align: center;
+  padding: 1%;
+  color: white;
+  min-height: 3vh;
+  box-sizing: border-box;
+  cursor: pointer;
+  margin-bottom: 5%;
+  transition-duration: 250ms;
+}
+
+#selected-category:hover {
+  background-color: rgb(214, 69, 69);
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 15%;
+}
+
+.box > input {
+  width: 85%;
+  margin-top: 1.5%;
+}
+
+#coverBox > div[class='form-check'] {
+  width: 75%;
+  margin: 1%;
+  color: white;
+}

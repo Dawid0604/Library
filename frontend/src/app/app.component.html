@@ -1,0 +1,48 @@
+<div id="app">
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto" routerLinkActive="active">
+      <li class="nav-item">
+        <a href="/home" class="nav-link navbar-brand" routerLink="home"> Library </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link"> About us </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link"> Basket [{{getBasketSize()}}] </a>
+      </li>
+
+      @if(isLoggedIn) {
+        @if (showProfileBoard) {
+          <li class="nav-item">
+            <a href="/profile" class="nav-link" routerLink="profile"> Profile </a>
+          </li>
+        }
+
+        @if (showAdminBoard) {
+          <li class="nav-item">
+            <a href="/admin" class="nav-link" routerLink="admin"> Admin board</a>
+          </li>
+        }
+
+        <li class="nav-item">
+          <a href="/login" (click)="logout()" class="nav-link" routerLink="login"> Logout </a>
+        </li>
+
+      } @else {
+        <li class="nav-item">
+          <a href="/register" class="nav-link" routerLink="register"> Sign up</a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/login" class="nav-link" routerLink="login"> Sign in</a>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

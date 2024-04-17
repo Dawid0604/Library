@@ -1,0 +1,323 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    @if(!isSuccessful) {
+      <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+          <div class="form-group w-50 p-3">
+            <label for="title">Title</label>
+            <input type="text"
+                   class="form-control"
+                   name="title"
+                   [(ngModel)]="form.title"
+                   required
+                   minlength="1"
+                   placeholder="Enter the title"
+                   #title="ngModel"
+                   [ngClass]="{ 'is-invalid': f.submitted && title.errors }"/>
+
+            @if (title.errors && f.submitted) {
+              @if (title.errors['required']) {
+                <div>Title is required</div>
+              }
+
+              @if (title.errors['minlength']) {
+                <div>Title must be at least 1 characters</div>
+              }
+            }
+          </div>
+
+          <div class="form-group w-50 p-3">
+            <label for="quantity">Quantity</label>
+            <input type="number"
+                   class="form-control"
+                   name="quantity"
+                   [(ngModel)]="form.quantity"
+                   required
+                   minlength="1"
+                   min="1"
+                   #quantity="ngModel"
+                   [ngClass]="{ 'is-invalid': f.submitted && quantity.errors }"/>
+
+            @if (quantity.errors && f.submitted) {
+              @if (quantity.errors['required']) {
+                <div>Quantity is required</div>
+              }
+
+              @if (quantity.errors['minlength']) {
+                <div>Quantity must be at least 1 characters</div>
+              }
+            }
+          </div>
+
+          <div class="form-group w-50 p-3">
+            <label for="price">Price</label>
+            <input type="number"
+                   class="form-control"
+                   name="price"
+                   [(ngModel)]="form.price"
+                   required
+                   minlength="1"
+                   min="1"
+                   #price="ngModel"
+                   [ngClass]="{ 'is-invalid': f.submitted && price.errors }"/>
+
+            @if (price.errors && f.submitted) {
+              @if (price.errors['required']) {
+                <div>Price is required</div>
+              }
+
+              @if (price.errors['minlength']) {
+                <div>Price must be at least 1 characters</div>
+              }
+            }
+          </div>
+
+          <div class="form-group w-50 p-3">
+            <label for="numberOfPages">Number of pages</label>
+            <input type="number"
+                   class="form-control"
+                   name="numberOfPages"
+                   [(ngModel)]="form.numberOfPages"
+                   required
+                   minlength="1"
+                   placeholder="Enter the number of pages"
+                   min="1"
+                   #numberOfPages="ngModel"
+                   [ngClass]="{ 'is-invalid': f.submitted && numberOfPages.errors }"/>
+
+            @if (numberOfPages.errors && f.submitted) {
+              @if (numberOfPages.errors['required']) {
+                <div>Quantity is required</div>
+              }
+
+              @if (numberOfPages.errors['minlength']) {
+                <div>Number of pages must be at least 1 characters</div>
+              }
+            }
+          </div>
+
+          <div class="form-group w-50 p-3">
+            <label for="edition">Edition</label>
+            <input type="number"
+                   class="form-control"
+                   name="edition"
+                   [(ngModel)]="form.edition"
+                   required
+                   placeholder="Enter the edition"
+                   minlength="1"
+                   min="1"
+                   #edition="ngModel"
+                   [ngClass]="{ 'is-invalid': f.submitted && edition.errors }"/>
+
+            @if (edition.errors && f.submitted) {
+              @if (edition.errors['required']) {
+                <div>Edition is required</div>
+              }
+
+              @if (edition.errors['minlength']) {
+                <div>Edition must be at least 1 characters</div>
+              }
+            }
+          </div>
+
+          <div class="form-group w-50 p-3">
+            <label for="publicationYear">Publication year</label>
+            <input type="number"
+                   class="form-control"
+                   name="publicationYear"
+                   [(ngModel)]="form.publicationYear"
+                   placeholder="Enter the publication year"
+                   required
+                   minlength="1"
+                   min="1"
+                   #publicationYear="ngModel"
+                   [ngClass]="{ 'is-invalid': f.submitted && publicationYear.errors }"/>
+
+            @if (publicationYear.errors && f.submitted) {
+              @if (publicationYear.errors['required']) {
+                <div>Publication year is required</div>
+              }
+
+              @if (publicationYear.errors['minlength']) {
+                <div>Publication year must be at least 1 characters</div>
+              }
+            }
+          </div>
+
+          <div class="form-group w-50 p-3">
+            <label for="description">Description</label>
+            <textarea type="text"
+                   class="form-control"
+                   name="description"
+                   [(ngModel)]="form.description"
+                   required
+                   placeholder="Enter the description"
+                   minlength="50"
+                   #description="ngModel"
+                   [ngClass]="{ 'is-invalid': f.submitted && description.errors }"></textarea>
+
+            @if (description.errors && f.submitted) {
+              @if (description.errors['required']) {
+                <div>Description year is required</div>
+              }
+
+              @if (description.errors['minlength']) {
+                <div>Description year must be at least 1 characters</div>
+              }
+            }
+          </div>
+
+          <div class="form-group w-50 p-3">
+            <label for="category">Category</label>
+            <select class="form-select"
+            name="category"
+            [(ngModel)]="form.category"
+            required
+            #category="ngModel">
+              <option>1</option>
+              <option>2</option>
+            </select>
+          </div>
+
+          <div class="form-group w-50 p-3">
+            <label for="mainPicture">Main picture</label>
+            <input type="text"
+                   class="form-control"
+                   name="mainPicture"
+                   [(ngModel)]="form.mainPicture"
+                   placeholder="Enter the picture url"
+                   required
+                   #mainPicture="ngModel"
+                   [ngClass]="{ 'is-invalid': f.submitted && mainPicture.errors }"/>
+
+            @if (mainPicture.errors && f.submitted) {
+              @if (mainPicture.errors['required']) {
+                <div>Main picture year is required</div>
+              }
+            }
+          </div>
+
+          <div class="form-group w-50 p-3">
+            <label for="publisher">Publisher</label>
+            <input type="text"
+                   class="form-control"
+                   name="publisher"
+                   [(ngModel)]="form.publisher"
+                   placeholder="Enter the publisher"
+                   required
+                   #publisher="ngModel"
+                   [ngClass]="{ 'is-invalid': f.submitted && publisher.errors }"/>
+
+            @if (publisher.errors && f.submitted) {
+              @if (publisher.errors['required']) {
+                <div>Publisher is required</div>
+              }
+            }
+          </div>
+
+          <div class="form-group w-50 p-3">
+            <label class="form-check-label" for="Cover">Cover</label>
+
+            <div class="form-check">
+              <label class="form-check-label" for="Soft">Soft</label>
+              <input type="radio"
+                     class="form-check-input"
+                     name="cover"
+                     [(ngModel)]="form.cover"
+                     #radio="ngModel"
+                     value="Soft"/>
+            </div>
+
+            <div class="form-check">
+              <label class="form-check-label" for="Hard">Hard</label>
+              <input type="radio"
+                     class="form-check-input"
+                     name="cover"
+                     [(ngModel)]="form.cover"
+                     #radio="ngModel"
+                     value="Hard"/>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="form-group w-50 p-3">
+            <label class="d-block p-1" for="Other images">Other pictures</label>
+            <input class="m-1 p-1" type="text" [(ngModel)]="form.picture" #picture="ngModel" name="picture" placeholder="Enter a picture link">
+            <button class="m-1 p-1 btn btn-primary" type="button" (click)="storePicture()">Add picture</button>
+
+            <div *ngIf="pictures.length > 0">
+              <ul class="list-group list-group-flush">
+                <li *ngFor="let picture of pictures" class="list-group-item">
+                  <button class="btn btn-info" (click)="removePicture(picture)" type="button" title="Click to remove" >{{ picture }}</button> </li>
+              </ul>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="form-group">
+            <h5 class="m-2">Authors</h5>
+            <div class="d-flex">
+              <div style="width: 50%;" class="p-1 d-flex flex-wrap">
+                <div style="width: 100%;" class="m-1">
+                  <label class="d-block p-1" for="name">Name</label>
+                  <input type="text"
+                         name="authorName"
+                         placeholder="Enter the author name"
+                         [(ngModel)]="form.authorName"
+                         #authorName="ngModel">
+                </div>
+
+                <div style="width: 100%;" class="m-1">
+                  <label class="d-block p-1" for="description">Description</label>
+                  <textarea name="authorName"
+                            [(ngModel)]="form.authorDescription"
+                            placeholder="Enter the author description"
+                            #authorDescription="ngModel"></textarea>
+                </div>
+
+                <div style="width: 100%;" class="m-1">
+                  <label class="d-block p-1" for="picture">Picture</label>
+                  <input type="text"
+                         name="authorPicture"
+                         [(ngModel)]="form.authorPicture"
+                         placeholder="Enter the autor avatar"
+                         #authorPicture="ngModel">
+                </div>
+
+                <div class="m-1">
+                  <button (click)="storeAuthor()" type="button" class="btn btn-primary">Add to list</button>
+                </div>
+
+                <hr>
+
+                <div style="width: 100%;" class="mt-3">
+                  <h5>List of authors</h5>
+                  <div *ngIf="authors.length > 0">
+                    <ul style="list-style-type: none;">
+                      <li *ngFor="let author of authors" class="m-2">
+                        <div class="btn btn-info" (click)="removeAuthor(author.name)" title="Click to remove">
+                          <p>Name: {{author.name}}</p>
+                          <p>Picture: {{author.picture}}</p>
+                          <p>Description: {{author.description}}</p>
+                        </div>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div style="width: 50%;" class="p-1">
+                Find
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="form-group d-flex justify-content-end m-2">
+            <button class="btn btn-primary btn-block w-25" style="margin-right: 2em;">Create book</button>
+          </div>
+      </form>
+    }
+  </div>
+</div>

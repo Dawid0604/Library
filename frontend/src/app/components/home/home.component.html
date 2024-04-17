@@ -1,0 +1,181 @@
+<div id="main-container">
+  <nav>
+    <div id="pagination">
+      <h3>Found {{ totalElements }} books</h3>
+      <button class="btn btn-success">{{currentPage + 1}}/{{numberOfpages}}</button>
+      <button (click)="fetchPreviousBooks()" [disabled]="isFirst" [ngClass]="{ 'btn-secondary' : isFirst, 'btn-primary' : !isFirst }" class="btn">Prvious</button>
+      <button (click)="fetchNextBooks()" [disabled]="isLast" [ngClass]="{ 'btn-secondary' : isLast, 'btn-primary' : !isLast }" class="btn">Next</button>
+      <button (click)="fetchLastBooks()" [disabled]="isLast" [ngClass]="{ 'btn-secondary' : isLast, 'btn-primary' : !isLast }" class="btn">Last</button>
+    </div>
+
+    <div id="categories">
+      <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+        <button type="button" class="btn btn-primary btn-block w-100 mt-2" (click)="showCategoryBox()">
+          Categories
+        </button>
+
+        @if(showCategoryBoxFlag) {
+          @if(selectedCategory) {
+            <div id="selected-category" title="Click to cancel category" (click)="unselectCategory()" >Selected Category: {{selectedCategory}}</div>
+            <div class="category-box">
+              @if(!showSubCategoriesBoxFlag) {
+                @for(category of subCategories; track subCategories) {
+                  <button type="button" (click)="selectCategory(category.name, category.index)"> {{ category.name }} </button>
+                }
+              }
+            </div>
+          }
+
+          @if(!selectedCategory) {
+            <div class="category-box">
+              @for(category of parentCategories; track parentCategories) {
+                <button type="button" (click)="selectCategory(category.name, category.index)"> {{ category.name }} </button>
+              }
+            </div>
+          }
+        }
+
+        <button type="button" class="btn btn-primary btn-block w-100 mt-2" (click)="showPriceBox()">
+          Prices
+        </button>
+
+        @if(showPriceBoxFlag) {
+          <div class="box">
+            <input type="number"
+                   class="form-control"
+                   placeholder="Price from"
+                   name="priceFrom"
+                   [(ngModel)]="form.priceFrom"
+                   minlength="1"
+                   min="1"
+                   #priceFrom="ngModel">
+
+            <input type="number"
+                   class="form-control"
+                   placeholder="Price to"
+                   name="priceTo"
+                   [(ngModel)]="form.priceTo"
+                   minlength="1"
+                   min="1"
+                   #priceTo="ngModel">
+          </div>
+        }
+
+        <button type="button" class="btn btn-primary btn-block w-100 mt-2" (click)="showNumberOfPagesBox()">
+          Number of pages
+        </button>
+
+        @if(showNumberOfPagesBoxFlag) {
+          <div class="box">
+            <input type="number"
+                   class="form-control"
+                   placeholder="Number of pages from"
+                   name="numberOfPagesFrom"
+                   [(ngModel)]="form.numberOfPagesFrom"
+                   minlength="1"
+                   min="1"
+                   #numberOfPagesFrom="ngModel">
+
+            <input type="number"
+                   class="form-control"
+                   placeholder="Number of pages to"
+                   name="numberOfPagesTo"
+                   [(ngModel)]="form.numberOfPagesTo"
+                   minlength="0"
+                   min="0"
+                   #numberOfPagesTo="ngModel">
+          </div>
+        }
+
+        <button type="button" class="btn btn-primary btn-block w-100 mt-2" (click)="showPublicationYearBox()">
+          Publication Year
+        </button>
+
+        @if(showPublicationYearBoxFlag) {
+          <div class="box">
+            <input type="number"
+                   class="form-control"
+                   placeholder="Publication year from"
+                   name="publicationYearFrom"
+                   [(ngModel)]="form.publicationYearFrom"
+                   [minLength]="minimumPublicationYear"
+                   [min]="minimumPublicationYear"
+                   #publicationYearFrom="ngModel">
+
+            <input type="number"
+                   class="form-control"
+                   placeholder="Publication year to"
+                   name="publicationYearTo"
+                   [(ngModel)]="form.publicationYearTo"
+                   [minLength]="minimumPublicationYear"
+                   [min]="minimumPublicationYear"
+                   #publicationYearTo="ngModel">
+          </div>
+        }
+
+        <button type="button" class="btn btn-primary btn-block w-100 mt-2" (click)="showCoverBox()">
+          Cover
+        </button>
+
+        @if(showCoverBoxFlag) {
+          <div class="box" id="coverBox">
+            <div class="form-check">
+              <input class="form-check-input"
+                     type="radio"
+                     name="cover"
+                     [(ngModel)]="form.cover"
+                     #cover="ngModel"
+                     value=""
+                     id="Hard">
+
+              <label class="form-check-label" for="Hard">
+                Hard
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input"
+                     type="radio"
+                     name="cover"
+                     [(ngModel)]="form.cover"
+                     #cover="ngModel"
+                     value=""
+                     id="Soft">
+
+              <label class="form-check-label" for="Soft">
+                Soft
+              </label>
+            </div>
+          </div>
+        }
+
+        <div class="form-group d-flex justify-content-end m-2">
+          <button type="submit" class="btn btn-success btn-block w-100">Search</button>
+        </div>
+      </form>
+    </div>
+  </nav>
+
+  <main>
+    <div class="books">
+      @for(book of books; track books) {
+        <div class="card" [id]="book.bookId" (click)="openBook(book.title, book.bookId)">
+          <img class="card-img-top" alt="Book image" [src]="book.mainPicture">
+          <div class="card-body book">
+            <h6 class="card-title" [title]="book.title">{{book.title.length > 60 ? book.title.substring(0, 60) + ".." : book.title}}</h6>
+
+            <div class="d-flex flex-wrap details">
+              <div class="stars">
+                Stars: {{book.numberOfStars}}
+              </div>
+
+              <div class="price">
+                {{book.price}}$
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </main>
+</div>

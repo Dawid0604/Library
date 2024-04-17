@@ -1,0 +1,51 @@
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  application:
+    name: library-application
+
+  datasource:
+    url: jdbc:mysql://${LIBRARY_DATABASE}/library?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Warsaw&characterEncoding=UTF-8
+    username: ${LIBRARY_USERNAME}
+    password: ${LIBRARY_PASSWORD}
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+
+  flyway:
+    schemas: library
+    url: jdbc:mysql://${LIBRARY_DATABASE}/library?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Warsaw&characterEncoding=UTF-8
+    locations: classpath:/migrations
+    baselineVersion: 1.0
+    baseline-description: baseline
+    baseline-on-migrate: true
+    user: ${LIBRARY_USERNAME}
+    password: ${LIBRARY_PASSWORD}
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: TRACE
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+jwt:
+  secret: ']]$R5@mJj[h%}Nb;x]jvirItdS+#JqJZ8$T_-}7+5Z-%zFMJfX'
+  expirationDate: 86400000
+  refreshTokenExpirationDate: 172800000

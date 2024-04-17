@@ -1,0 +1,99 @@
+<main>
+  @if(book.pictures) {
+    <div id="image">
+      <img alt="Book image" [src]="book.pictures[0]">
+    </div>
+  }
+
+  <div class="body">
+    <div id="titleBox">
+      <h1> {{book.title}} </h1>
+    </div>
+
+    <div id="detailsBox">
+      <div id="action">
+        <div>
+          <h2>{{book.price}}$</h2>
+        </div>
+        <div id="basketButton">
+          @if(basketContainsBookFlag) {
+            <button style="background-color: rgb(223, 91, 39);" title="Go to basket"> <h2>Stored in the basket </h2></button>
+
+          } @else {
+            <button (click)="storeBookToBasket(book.bookId)"> <h2>Add to basket</h2> </button>
+          }
+        </div>
+      </div>
+
+      <div id="details">
+        <p> <b>Category:</b>&nbsp;
+          @if(book.category) {
+            {{book.category}}
+
+            @if(book.subCategory) {
+              >> {{book.subCategory}}
+            }
+
+          } @else {
+            Unknown
+          }
+        </p>
+
+        <p> <b>Cover:</b>
+          &nbsp;
+          {{ book.cover ? book.cover : 'Unknown' }}
+        </p>
+
+        <p> <b>Edition:</b>
+          &nbsp;
+          {{ book.edition ? book.edition : 'Unknown' }}
+        </p>
+
+        <p> <b>Number of pages:</b>
+          &nbsp;
+          {{ book.numberOfPages ? book.numberOfPages : 'Unknown' }}
+        </p>
+
+        <p> <b>Stars:</b>
+          &nbsp;
+          {{ book.numberOfStars ? book.numberOfStars : 'Unknown' }}
+        </p>
+
+        <p> <b>Publication year:</b>
+          &nbsp;
+          {{ book.publicationYear ? book.publicationYear : 'Unknown' }}
+        </p>
+
+        <p> <b>Publisher:</b>
+          @if(book.publisher) {
+            &nbsp;
+            <a href="#" title="Publisher books">{{book.publisher.name}} </a>
+
+          } @else {
+            Unknown
+          }
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="description">
+    <h1>Description</h1>
+    <p>{{book.description}}</p>
+  </div>
+
+  <div id="authors">
+    <h1>Authors</h1>
+    @for (author of book.authors; track author) {
+      <div class="author" [id]="author.authorId">
+        <img [src]="author.picture">
+
+        <h1>
+          <a href="#" title="Author books">{{author.name}}</a>
+        </h1>
+
+        <p>{{author.description}}</p>
+      </div>
+    }
+  </div>
+</main>
