@@ -3,6 +3,7 @@ import { BookService } from '../../services/book.service';
 import { ActivatedRoute } from '@angular/router';
 import { BookDetailsResponse } from '../../model/BookDetailsResponse';
 import { BasketService } from '../../services/basket.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-book',
@@ -12,12 +13,24 @@ import { BasketService } from '../../services/basket.service';
 export class BookComponent implements OnInit {
   book: BookDetailsResponse = {} as BookDetailsResponse;
   basketContainsBookFlag: boolean = false;
+  isAdmin: boolean = true;
 
   constructor(private bookService: BookService,
               private route: ActivatedRoute,
-              private basketService: BasketService) { }
+              private basketService: BasketService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
+    this.userService
+        .getRoles()
+        .subscribe({
+          next: data => this.isAdmin = data.includes("ROLE_ADMIN"),
+          error: err => {
+            console.log(err)
+            this.isAdmin = false;
+          }
+        })
+
     this.route
         .params
         .subscribe(params => {

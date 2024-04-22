@@ -32,7 +32,8 @@ public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtUtils jwtUtils;
 
-    private static final String[] NOT_SECURED_ENDPOINTS = { "/api/auth/**", "/api/book/fetch/**", "/api/category/fetch/**" };
+    private static final String[] NOT_SECURED_ENDPOINTS = { "/api/auth/**", "/api/book/fetch/**", "/api/category/fetch/**",
+                                                            "/api/basket/**", "/api/author/**", "/api/publisher/**" };
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {

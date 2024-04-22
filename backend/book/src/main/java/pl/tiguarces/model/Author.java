@@ -41,4 +41,12 @@ public class Author {
         this.picture = authorRequest.picture();
         this.books = List.of(book);
     }
+
+    @SuppressWarnings("unused")
+    public Author(final Long authorId, final String name, final String description, final String picture) {
+        this.authorId = authorId;
+        this.name = name;
+        this.description = description;
+        this.picture = picture;
+    }
 }

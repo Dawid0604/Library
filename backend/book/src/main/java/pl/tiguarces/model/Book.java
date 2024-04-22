@@ -76,7 +76,9 @@ public class Book {
     private BookCover cover;
 
     @SuppressWarnings("unused")
-    public Book(final Long bookId, final String title, final Double price, final Double originalPrice, final int numberOfStars, final String mainPicture) {
+    public Book(final Long bookId, final String title, final Double price,
+                final Double originalPrice, final int numberOfStars, final String mainPicture) {
+
         this.bookId = bookId;
         this.title = title;
         this.price = price;

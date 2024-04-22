@@ -11,19 +11,27 @@ import { BookDetailsResponse } from '../model/BookDetailsResponse';
   providedIn: 'root'
 })
 export class BookService {
-  private readonly BASE_API_URL = 'http://localhost:8080/api/book';
+  private readonly BASE_API_URL = 'http://localhost:8080/api';
 
   constructor(private httpClient: HttpClient) { }
 
   fetchBooks(searchReqeuest: SearchBookRequest): Observable<BookResponse> {
-    return this.httpClient.post<BookResponse>(`${this.BASE_API_URL}/fetch/all`, searchReqeuest);
+    return this.httpClient.post<BookResponse>(`${this.BASE_API_URL}/book/fetch/all`, searchReqeuest);
   }
 
   fetchById(id: number): Observable<BookDetailsResponse> {
-    return this.httpClient.get<BookDetailsResponse>(`${this.BASE_API_URL}/fetch/` + id);
+    return this.httpClient.get<BookDetailsResponse>(`${this.BASE_API_URL}/book/fetch/` + id);
   }
 
   create(book: CreateBookRequest): Observable<any> {
-    return this.httpClient.post(`${this.BASE_API_URL}/create`, book);
+    return this.httpClient.post(`${this.BASE_API_URL}/book/create`, book);
+  }
+
+  fetchBooksByIds(booksIds: number[]): Observable<any> {
+    return this.httpClient.post<Array<Book>>(`${this.BASE_API_URL}/basket/fetch`, booksIds, {
+      headers: {
+        'Content-Type': 'Application/json'
+      }
+    });
   }
 }

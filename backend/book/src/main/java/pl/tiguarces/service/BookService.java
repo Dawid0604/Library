@@ -19,13 +19,17 @@ import pl.tiguarces.repository.CategoryRepository;
 import pl.tiguarces.repository.PublisherRepository;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+
+import static java.util.Collections.emptyList;
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Service
 @RequiredArgsConstructor
 public class BookService {
-    private final BookRepository repository;
+    private final BookRepository bookRepository;
     private final PublisherRepository publisherRepository;
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
@@ -34,14 +38,14 @@ public class BookService {
     private static final Pattern SEMICOLON_PATTERN = Pattern.compile(SEMICOLON);
 
     public Page<Book> findAll(final SearchBookRequest request) {
-        return repository.findAllByRequest(request.getCategory(), request.getPriceFrom(), request.getPriceTo(),
-                                           request.getNumberOfPagesFrom(), request.getNumberOfPagesTo(), request.getPublicationYearFrom(),
-                                           request.getPublicationYearTo(), request.getCover(), PageRequest.of(request.getPage(), request.getSize()));
+        return bookRepository.findAllByRequest(request.getCategory(), request.getPriceFrom(), request.getPriceTo(),
+                                               request.getNumberOfPagesFrom(), request.getNumberOfPagesTo(), request.getPublicationYearFrom(),
+                                               request.getPublicationYearTo(), request.getCover(), PageRequest.of(request.getPage(), request.getSize()));
     }
 
     @Transactional(readOnly = true)
     public Optional<BookDetailsResponse> findById(final long bookId) {
-        var possibleBook = repository.findById(bookId);
+        var possibleBook = bookRepository.findById(bookId);
 
         if(possibleBook.isPresent()) {
             var book = possibleBook.get();
@@ -83,7 +87,7 @@ public class BookService {
     }
 
     public void save(final NewBookRequest request) {
-        repository.save(mapToNewBook(request));
+        bookRepository.save(mapToNewBook(request));
     }
 
     private Book mapToNewBook(final NewBookRequest request) {
@@ -96,7 +100,6 @@ public class BookService {
              book.setDescription(request.description());
              book.setMainPicture(request.mainPicture());
              book.setCover(request.cover());
-//             book.setCategory(request.category());
              book.setQuantity(request.quantity());
 
         // TODO: set name as unique fields
@@ -113,11 +116,19 @@ public class BookService {
                                 .map(picture -> new Picture(picture, book))
                                 .toList());
 
+        book.setCategory(categoryRepository.findById((long) request.category())
+                                           .orElseThrow());
+
         return book;
     }
 
     private Author mapToAuthor(final NewAuthorRequest request, final Book book) {
         return authorRepository.findByName(request.name())
                                .orElse(new Author(request, book));
+    }
+
+    public List<Book> collect(final List<Long> booksIds) {
+        return (!isEmpty(booksIds)) ? bookRepository.findBooksById(booksIds)
+                                    : emptyList();
     }
 }

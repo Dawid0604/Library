@@ -1,0 +1,36 @@
+<main id="main-container">
+  <div id="books">
+    @for (book of basketBooks; track book) {
+      <div class="card" [id]="book.bookId" title="Click to remove" (click)="deleteBook(book.bookId)">
+        <img class="card-img-top" alt="Book image" [src]="book.mainPicture">
+        <div class="card-body book">
+          <h6 class="card-title" [title]="book.title">{{book.title.length > 60 ? book.title.substring(0, 60) + ".." : book.title}}</h6>
+
+          <div class="d-flex flex-wrap details">
+            <div class="stars">
+              Stars: {{book.numberOfStars}}
+            </div>
+
+            <div class="price">
+              {{book.price}}$
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div id="basketDetails">
+    <h1>Basket <br><h3>Details</h3></h1>
+
+    <div id="stats">
+      <p style="background-color: wheat;">{{basketBooks.length}} Books</p>
+      <p style="background-color: yellowgreen;">{{ calculateCosts() }} $</p>
+    </div>
+
+    <div id="actions">
+      <button class="btn btn-warning" (click)="cleanBasket()"> Clean basket </button>
+      <button class="btn btn-success"> Submit your order </button>
+    </div>
+  </div>
+</main>

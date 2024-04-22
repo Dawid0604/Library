@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { UserRole } from './model/UserRole';
 import { UserService } from './services/user.service';
-import { map, take } from 'rxjs';
+import { catchError, map, take } from 'rxjs';
 
 export const RoleGuard: CanActivateFn = (route, state) => {
   const router: Router = inject(Router);
@@ -19,5 +19,5 @@ export const RoleGuard: CanActivateFn = (route, state) => {
                             }
 
                             router.navigate(['home']); return false;
-                    }))
+                    }), catchError(err => router.navigate(['home'])))
 };

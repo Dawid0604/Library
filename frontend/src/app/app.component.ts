@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { StorageService } from './services/storage.service';
 import { UserService } from './services/user.service';
 import { BasketService } from './services/basket.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,13 +11,13 @@ import { BasketService } from './services/basket.service';
 })
 export class AppComponent {
   isLoggedIn = false;
-  showProfileBoard = false;
   showAdminBoard = false;
   title = 'Library';
 
   constructor(private storageService: StorageService,
               private userService: UserService,
-              private basketService: BasketService) { }
+              private basketService: BasketService,
+              private router: Router) { }
 
   ngOnInit(): void {
     if(this.storageService.isLoggedIn()) {
@@ -24,16 +25,11 @@ export class AppComponent {
           .getRoles()
           .subscribe({
             next: data => {
-              const roles = data;
-              this.showAdminBoard = roles.includes("ROLE_ADMIN");
-              this.showProfileBoard = !this.showAdminBoard;
+              this.showAdminBoard = data.includes("ROLE_ADMIN")
               this.isLoggedIn = true;
             },
-
-            error: err => {
-              console.log(err);
-            }
-          });
+            error: err => console.log(err)
+          })
     }
   }
 
@@ -43,5 +39,6 @@ export class AppComponent {
 
   logout(): void {
     this.storageService.logout();
+    window.location.href = "login";
   }
 }

@@ -8,12 +8,18 @@ import { AdminComponent } from './components/admin/admin.component';
 import { BookComponent } from './components/book/book.component';
 import { RoleGuard } from './role.guard';
 import { UserRole } from './model/UserRole';
+import { BasketComponent } from './components/basket/basket.component';
+import { PublisherComponent } from './components/publisher/publisher.component';
+import { AuthorComponent } from './components/author/author.component';
 
 const routes: Routes = [
   { path: "home", component: HomeComponent },
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   { path: "book/:title/:id", component: BookComponent },
+  { path: "basket", component: BasketComponent },
+  { path: "publisher/:name/:id", component: PublisherComponent },
+  { path: "author/:name/:id", component: AuthorComponent },
   { path: "", redirectTo: "home", pathMatch: "full"},
 
   { path: "profile", component: ProfileComponent,

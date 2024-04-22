@@ -10,7 +10,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   private readonly endpointsWithoutToken: string[] = [
     "/api/auth/",
     "/api/book/fetch",
-    "/api/category"
+    "/api/category",
+    "/api/basket/fetch",
+    "/api/author",
+    "/api/publisher"
   ];
 
   constructor(private storageService: StorageService,

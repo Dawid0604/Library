@@ -12,6 +12,10 @@ export class BasketService {
     this.storageService.storeBookToBasket(bookId);
   }
 
+  removeBook(bookId: number) {
+    this.storageService.removeBookFromBasket(bookId);
+  }
+
   size(): number {
     let result = this.storageService.retrieveShoppingBasket();
     return result ? (JSON.parse(result) as number[]).length
@@ -21,5 +25,13 @@ export class BasketService {
   contains(bookId: number): boolean {
     let result = this.storageService.retrieveShoppingBasket();
     return result && (result as number[]).includes(bookId);
+  }
+
+  getContent(): Array<number> {
+    return this.storageService.retrieveShoppingBasket();
+  }
+
+  clean(): void {
+    this.storageService.cleanBasket();
   }
 }

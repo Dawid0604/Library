@@ -12,6 +12,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { httpInterceptorProviders } from './utils/http.interceptor';
 import { AdminComponent } from './components/admin/admin.component';
 import { BookComponent } from './components/book/book.component';
+import { BasketComponent } from './components/basket/basket.component';
+import { AuthorComponent } from './components/author/author.component';
+import { PublisherComponent } from './components/publisher/publisher.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { BookComponent } from './components/book/book.component';
     RegisterComponent,
     HomeComponent,
     AdminComponent,
-    BookComponent
+    BookComponent,
+    BasketComponent,
+    AuthorComponent,
+    PublisherComponent
   ],
   imports: [
     BrowserModule,

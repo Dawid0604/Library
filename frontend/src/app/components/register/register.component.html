@@ -1,6 +1,6 @@
-<div class="col-md-12">
+<div class="col-md-12" id="box">
   <div class="card card-container">
-    <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="rounded mx-auto d-block"/>
+    <img id="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="rounded mx-auto d-block"/>
 
     @if (!isSuccessful) {
       <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>

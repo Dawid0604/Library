@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
 
   constructor(private authService: AuthService,
-              private storageService: StorageService) { }
+              private storageService: StorageService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
@@ -34,17 +36,12 @@ export class LoginComponent implements OnInit {
             this.storageService.storeTokens(data);
             this.isLoginFailed = false;
             this.isLoggedIn = true;
-            this.reloadPage();
+            window.location.href = "/home";
           },
           error: err => {
             this.errorMessage = err.error.message;
             this.isLoginFailed = true;
           }
         });
-  }
-
-  reloadPage(): void {
-    window.location
-          .reload();
   }
 }

@@ -1,0 +1,31 @@
+#box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+}
+
+.card {
+  width: 45%;
+  height: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#profile-img {
+  margin-bottom: 5%;
+}
+
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  width: 100%;
+  margin-top: 3%;
+}

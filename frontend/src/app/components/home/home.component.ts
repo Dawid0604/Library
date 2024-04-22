@@ -145,6 +145,7 @@ export class HomeComponent implements OnInit {
     this.searchBookRequest.publicationYearFrom = undefined;
     this.searchBookRequest.publicationYearTo = undefined;
 
+    this.selectedCategory = '';
     this.form.page = null;
     this.form.category = null;
     this.form.priceFrom = null;

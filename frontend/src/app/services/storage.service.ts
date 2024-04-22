@@ -15,7 +15,11 @@ export class StorageService {
     this.cleanByKey(this.REFRESH_TOKEN_KEY);
   }
 
-  cleanByKey(key: string): void {
+  cleanBasket(): void {
+    this.cleanByKey(this.SHOPPING_BASKET_KEY);
+  }
+
+  private cleanByKey(key: string): void {
     const date = new Date();
           date.setTime(date.getTime() + (-1 * 24 * 60 * 60 * 1000));
 
@@ -33,6 +37,24 @@ export class StorageService {
 
     document.cookie = this.ACCESS_TOKEN_KEY + "=" + accessToken + "; expires=" + date.toUTCString() + "; path=/";
     document.cookie = this.REFRESH_TOKEN_KEY + "=" + refreshToken + "; expires=" + date.toUTCString() + "; path=/";
+  }
+
+  public removeBookFromBasket(bookId: number): void {
+    let basketContent = this.retrieveShoppingBasket();
+
+    if(!basketContent) {
+      basketContent = JSON.stringify([bookId]);
+
+    } else {
+      basketContent = JSON.parse(basketContent);
+      basketContent = basketContent.filter((_bookId: number) => _bookId !== bookId);
+      basketContent = JSON.stringify(basketContent);
+    }
+
+    const date = new Date();
+          date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+
+    document.cookie = this.SHOPPING_BASKET_KEY + "=" + basketContent + "; expires=" + date.toUTCString() + "; path=/";
   }
 
   public storeBookToBasket(bookId: number): void {
@@ -98,7 +120,5 @@ export class StorageService {
 
   public logout(): void {
     this.cleanTokens();
-    window.location
-          .reload();
   }
 }

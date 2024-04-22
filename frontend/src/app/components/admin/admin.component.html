@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="col-md-12" id="box">
   <div class="card card-container">
     @if(!isSuccessful) {
       <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
@@ -167,18 +167,6 @@
           </div>
 
           <div class="form-group w-50 p-3">
-            <label for="category">Category</label>
-            <select class="form-select"
-            name="category"
-            [(ngModel)]="form.category"
-            required
-            #category="ngModel">
-              <option>1</option>
-              <option>2</option>
-            </select>
-          </div>
-
-          <div class="form-group w-50 p-3">
             <label for="mainPicture">Main picture</label>
             <input type="text"
                    class="form-control"
@@ -236,6 +224,28 @@
                      #radio="ngModel"
                      value="Hard"/>
             </div>
+          </div>
+
+          <hr>
+
+          <div class="form-group w-50 p-3">
+            <h3>Categories</h3>
+
+            <div class="categories">
+              @for (category of parentCategories; track category) {
+                <button class="categoryButton" type="button" (click)="selectCategory(category.name, category.index)">{{ category.name }}</button>
+              }
+            </div>
+
+            @if(selectedCategory && subCategories && subCategories.length > 0) {
+              <h4 style="margin-top: 2%;">Subcategories</h4>
+
+              <div class="categories">
+                @for (category of subCategories; track category) {
+                  <button class="subCategoryButton" type="button" (click)="selectCategory(category.name, undefined)">{{ category.name }}</button>
+                }
+              </div>
+            }
           </div>
 
           <hr>

@@ -1,0 +1,15 @@
+.card-container {
+  background-color: transparent;
+  color: white;
+}
+
+.categories > button {
+  border: 2px solid slategray;
+  padding: 1%;
+  box-sizing: border-box;
+  transition-duration: 250ms;
+}
+
+.categories > button:hover {
+  background-color: slategray;
+}

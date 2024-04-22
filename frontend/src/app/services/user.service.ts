@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -8,6 +8,9 @@ import { StorageService } from './storage.service';
 })
 export class UserService {
   private readonly BASE_API_URL = 'http://localhost:8080/api/user';
+
+  public readonly ADMIN_BOARD_KEY = 'ADMIN_BOARD';
+  public readonly USER_BOARD_KEY = 'USER_BOARD';
 
   constructor(private htppClient: HttpClient) { }
 

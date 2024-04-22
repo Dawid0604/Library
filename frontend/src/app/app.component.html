@@ -5,16 +5,18 @@
         <a href="/home" class="nav-link navbar-brand" routerLink="home"> Library </a>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link"> About us </a>
-      </li>
+      @if(!showAdminBoard) {
+        <li class="nav-item">
+          <a class="nav-link"> About us </a>
+        </li>
 
-      <li class="nav-item">
-        <a class="nav-link"> Basket [{{getBasketSize()}}] </a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="basket"> Basket [{{getBasketSize()}}] </a>
+        </li>
+      }
 
       @if(isLoggedIn) {
-        @if (showProfileBoard) {
+        @if (!showAdminBoard) {
           <li class="nav-item">
             <a href="/profile" class="nav-link" routerLink="profile"> Profile </a>
           </li>
@@ -22,7 +24,7 @@
 
         @if (showAdminBoard) {
           <li class="nav-item">
-            <a href="/admin" class="nav-link" routerLink="admin"> Admin board</a>
+            <a href="/admin" class="nav-link" routerLink="admin"> Add book </a>
           </li>
         }
 

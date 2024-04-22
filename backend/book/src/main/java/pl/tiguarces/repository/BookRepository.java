@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.tiguarces.model.Book;
 import pl.tiguarces.model.BookCover;
 
+import java.util.List;
+
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
@@ -31,4 +33,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
                                 Integer numberOfPagesTo, Integer publicationYearFrom, Integer publicationYearTo,
                                 BookCover cover, Pageable pageable);
 
+    @Transactional(readOnly = true)
+    @Query("SELECT new pl.tiguarces.model.Book(b.bookId, b.title, b.price, b.originalPrice, b.numberOfStars, b.mainPicture) FROM Book b WHERE b.bookId IN :bookIds")
+    List<Book> findBooksById(List<Long> bookIds);
 }
