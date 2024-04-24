@@ -11,7 +11,7 @@ export interface CreateBookRequest {
   edition: number,
   publicationYear: number,
   description: string,
-  category: number,
+  category: string,
   mainPicture: string,
   pictures: Array<string>,
   cover: BookCover

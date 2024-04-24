@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.tiguarces.model.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
@@ -20,5 +21,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Category> findAllParentsWithoutBooks();
 
     @Transactional(readOnly = true)
+    @Query("SELECT c.name FROM Category c WHERE c.index = :index")
     String findNameByIndex(String index);
+
+    Optional<Category> findByIndex(String category);
 }

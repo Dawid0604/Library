@@ -71,8 +71,8 @@ public class BookService {
             if(!categoryIndex.endsWith(SEMICOLON)) {
                 String[] splitCategoryIndex = SEMICOLON_PATTERN.split(categoryIndex);
 
-                category = categoryRepository.findNameByIndex(splitCategoryIndex[0]);
-                subCategory = categoryRepository.findNameByIndex(splitCategoryIndex[1]);
+                category = categoryRepository.findNameByIndex(splitCategoryIndex[0] + SEMICOLON);
+                subCategory = categoryRepository.findNameByIndex(categoryIndex);
 
             } else {
                 category = bookCategory.getName();
@@ -96,7 +96,7 @@ public class BookService {
              book.setPrice(request.price());
              book.setNumberOfPages(request.numberOfPages());
              book.setEdition(request.edition());
-             book.setPublicationYear(request.publicationYear());    // TODO: set as required field
+             book.setPublicationYear(request.publicationYear());
              book.setDescription(request.description());
              book.setMainPicture(request.mainPicture());
              book.setCover(request.cover());
@@ -116,7 +116,7 @@ public class BookService {
                                 .map(picture -> new Picture(picture, book))
                                 .toList());
 
-        book.setCategory(categoryRepository.findById((long) request.category())
+        book.setCategory(categoryRepository.findByIndex(request.category())
                                            .orElseThrow());
 
         return book;

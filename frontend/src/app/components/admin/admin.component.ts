@@ -4,6 +4,7 @@ import { Author } from '../../model/Author';
 import { BookCover } from '../../model/BookCover';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../model/Category';
+import { AuthorService } from '../../services/author.service';
 
 @Component({
   selector: 'app-admin',
@@ -31,17 +32,19 @@ export class AdminComponent implements OnInit {
 
   pictures: Array<string> = [];
   authors: Array<Author> = [];
+  authorsFromDatabase: Array<Author> = [];
 
   isSuccessful = false;
   errorMessage = '';
 
   selectedCategory: string = '';
+  selectedSubCategory: string = '';
   parentCategories: Array<Category> = [ ];
   subCategories: Array<Category> = [ ];
 
   constructor(private bookService: BookService,
               private categoryService: CategoryService,
-              private renderer: Renderer2) { }
+              private authorService: AuthorService) { }
 
   ngOnInit(): void {
     this.categoryService
@@ -50,12 +53,18 @@ export class AdminComponent implements OnInit {
           next: data => this.parentCategories = data,
           error: err => console.log(err)
         })
+
+    this.authorService
+        .findAll()
+        .subscribe({
+          next: data => this.authorsFromDatabase = data,
+          error: err => console.log(err)
+        });
   }
 
   selectCategory(category: string, index: string|undefined): void {
-    this.selectedCategory = category;
-
     if(index) {
+      this.selectedCategory = category;
       this.form.category = index;
 
       if(this.subCategories && this.subCategories.length === 0) {
@@ -66,7 +75,11 @@ export class AdminComponent implements OnInit {
                             });
       } else {
         this.subCategories = [];
+        this.selectedSubCategory = '';
       }
+
+    } else {
+      this.selectedSubCategory = category;
     }
   }
 
@@ -109,7 +122,7 @@ export class AdminComponent implements OnInit {
   storeAuthor(): void {
     const { authorName, authorDescription, authorPicture } = this.form;
 
-    if(authorName && authorDescription && authorPicture) {
+    if(authorName && authorDescription) {
       this.authors.push({
         name: authorName,
         description: authorDescription,
@@ -119,7 +132,19 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  removeAuthor(name: string): void {
-    this.authors = this.authors.filter(author => author.name !== name);
+  storeAddedAuthor(authorName: string, authorDescription: string): void {
+    if(authorName) {
+      this.authors.push({
+        name: authorName,
+        description: authorDescription,
+        picture: '',
+        books: new Array()
+      })
+    }
+  }
+
+  removeAuthor(name: string, description: string): void {
+    this.authors = this.authors.filter(author => author.name !== name &&
+                                                 (description !== undefined || author.description !== description));
   }
 }

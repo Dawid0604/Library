@@ -167,24 +167,6 @@
           </div>
 
           <div class="form-group w-50 p-3">
-            <label for="mainPicture">Main picture</label>
-            <input type="text"
-                   class="form-control"
-                   name="mainPicture"
-                   [(ngModel)]="form.mainPicture"
-                   placeholder="Enter the picture url"
-                   required
-                   #mainPicture="ngModel"
-                   [ngClass]="{ 'is-invalid': f.submitted && mainPicture.errors }"/>
-
-            @if (mainPicture.errors && f.submitted) {
-              @if (mainPicture.errors['required']) {
-                <div>Main picture year is required</div>
-              }
-            }
-          </div>
-
-          <div class="form-group w-50 p-3">
             <label for="publisher">Publisher</label>
             <input type="text"
                    class="form-control"
@@ -229,20 +211,20 @@
           <hr>
 
           <div class="form-group w-50 p-3">
-            <h3>Categories</h3>
+            <h5 class="m-2">Categories</h5>
 
             <div class="categories">
               @for (category of parentCategories; track category) {
-                <button class="categoryButton" type="button" (click)="selectCategory(category.name, category.index)">{{ category.name }}</button>
+                <button [ngStyle]="{'backgroundColor': selectedCategory === category.name ? 'slategray' : 'white'}" class="categoryButton" type="button" (click)="selectCategory(category.name, category.index)">{{ category.name }}</button>
               }
             </div>
 
             @if(selectedCategory && subCategories && subCategories.length > 0) {
-              <h4 style="margin-top: 2%;">Subcategories</h4>
+              <h6 style="margin-top: 2%;">Subcategories</h6>
 
               <div class="categories">
                 @for (category of subCategories; track category) {
-                  <button class="subCategoryButton" type="button" (click)="selectCategory(category.name, undefined)">{{ category.name }}</button>
+                  <button [ngStyle]="{'backgroundColor': selectedSubCategory === category.name ? 'slategray' : 'white'}" class="subCategoryButton" type="button" (click)="selectCategory(category.name, undefined)">{{ category.name }}</button>
                 }
               </div>
             }
@@ -251,21 +233,33 @@
           <hr>
 
           <div class="form-group w-50 p-3">
-            <label class="d-block p-1" for="Other images">Other pictures</label>
+            <h5 class="m-2">Main picture</h5>
+
+            @if(form.mainPicture) {
+              <img class="picture" title="Click to remove" [src]="form.mainPicture" (click)="form.mainPicture = null">
+
+            } @else {
+              <input class="m-1 p-1" type="text" [(ngModel)]="form.mainPicture" #mainPicture="ngModel" name="mainPicture" placeholder="Enter a picture link">
+            }
+
+
+          </div>
+
+          <hr>
+
+          <div class="form-group w-50 p-3">
+            <h5 class="m-2">Other pictures</h5>
             <input class="m-1 p-1" type="text" [(ngModel)]="form.picture" #picture="ngModel" name="picture" placeholder="Enter a picture link">
             <button class="m-1 p-1 btn btn-primary" type="button" (click)="storePicture()">Add picture</button>
 
-            <div *ngIf="pictures.length > 0">
-              <ul class="list-group list-group-flush">
-                <li *ngFor="let picture of pictures" class="list-group-item">
-                  <button class="btn btn-info" (click)="removePicture(picture)" type="button" title="Click to remove" >{{ picture }}</button> </li>
-              </ul>
+            <div *ngIf="pictures.length > 0" class="addedItems">
+              <img *ngFor="let picture of pictures" class="picture" [src]="picture" (click)="removePicture(picture)" title="Click to remove">
             </div>
           </div>
 
           <hr>
 
-          <div class="form-group">
+          <div class="form-group p-3">
             <h5 class="m-2">Authors</h5>
             <div class="d-flex">
               <div style="width: 50%;" class="p-1 d-flex flex-wrap">
@@ -273,17 +267,21 @@
                   <label class="d-block p-1" for="name">Name</label>
                   <input type="text"
                          name="authorName"
+                         class="form-control"
                          placeholder="Enter the author name"
                          [(ngModel)]="form.authorName"
-                         #authorName="ngModel">
+                         #authorName="ngModel"
+                         style="width: 40%;">
                 </div>
 
                 <div style="width: 100%;" class="m-1">
                   <label class="d-block p-1" for="description">Description</label>
-                  <textarea name="authorName"
+                  <textarea name="authorDescription"
                             [(ngModel)]="form.authorDescription"
                             placeholder="Enter the author description"
-                            #authorDescription="ngModel"></textarea>
+                            class="form-control"
+                            #authorDescription="ngModel"
+                            style="width: 40%;"></textarea>
                 </div>
 
                 <div style="width: 100%;" class="m-1">
@@ -292,32 +290,43 @@
                          name="authorPicture"
                          [(ngModel)]="form.authorPicture"
                          placeholder="Enter the autor avatar"
-                         #authorPicture="ngModel">
+                         class="form-control"
+                         #authorPicture="ngModel"
+                         style="width: 40%;">
                 </div>
 
-                <div class="m-1">
+                <div class="m-2 mt-2">
                   <button (click)="storeAuthor()" type="button" class="btn btn-primary">Add to list</button>
                 </div>
 
                 <hr>
 
-                <div style="width: 100%;" class="mt-3">
+                <div style="width: 100%;" class="m-1 mt-3">
                   <h5>List of authors</h5>
-                  <div *ngIf="authors.length > 0">
-                    <ul style="list-style-type: none;">
-                      <li *ngFor="let author of authors" class="m-2">
-                        <div class="btn btn-info" (click)="removeAuthor(author.name)" title="Click to remove">
-                          <p>Name: {{author.name}}</p>
-                          <p>Picture: {{author.picture}}</p>
-                          <p>Description: {{author.description}}</p>
-                        </div>
-                    </ul>
+                  <div *ngIf="authors.length > 0" class="addedItems">
+                    <div *ngFor="let author of authors" class="btn newAuthor" (click)="removeAuthor(author.name, author.description)" title="Click to remove">
+                      <p><b>Name:</b> {{author.name}}</p>
+
+                      @if(author.picture) {
+                        <img [src]="author.picture" alt="Author image">
+                      }
+
+                      @if(author.description) {
+                        <p><b>Description:</b> {{author.description}}</p>
+                      }
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div style="width: 50%;" class="p-1">
-                Find
+              <div style="width: 50%;" class="p-1 addedAuthors">
+                <label for="addedAuthors">Select added</label>
+                <select name="addedAuthors">
+                  @for(author of authorsFromDatabase; track author) {
+                    <option [value]="author.name"
+                            (click)="storeAddedAuthor(author.name, author.description)">{{author.name}}</option>
+                  }
+                </select>
               </div>
             </div>
           </div>
@@ -325,7 +334,7 @@
           <hr>
 
           <div class="form-group d-flex justify-content-end m-2">
-            <button class="btn btn-primary btn-block w-25" style="margin-right: 2em;">Create book</button>
+            <button type="submit" class="btn btn-primary btn-block w-25" style="margin-right: 2em;">Create book</button>
           </div>
       </form>
     }

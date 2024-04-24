@@ -31,5 +31,9 @@ public class AuthorService {
         return new AuthorBooksResponse(author.getName(), author.getDescription(), author.getPicture(), books);
     }
 
+    public List<Author> getAll() {
+        return authorRepository.findAllAuthors();
+    }
+
     public record AuthorBooksResponse(String name, String description, String picture, List<Book> books) {}
 }

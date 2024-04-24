@@ -24,4 +24,11 @@ public class AuthorController {
         return (response.isPresent()) ? new ResponseEntity<>(response, OK)
                                       : new ResponseEntity<>(NO_CONTENT);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAll() {
+        var response = authorService.getAll();
+        return (!response.isEmpty()) ? new ResponseEntity<>(response, OK)
+                                     : new ResponseEntity<>(NO_CONTENT);
+    }
 }

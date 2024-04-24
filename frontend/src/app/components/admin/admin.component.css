@@ -13,3 +13,70 @@
 .categories > button:hover {
   background-color: slategray;
 }
+
+.addedAuthors > label {
+  width: 60%;
+}
+
+.addedItems {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.addedItems > img {
+  margin: 2%;
+  border: 2px solid white;
+}
+
+.addedAuthors > select {
+  width: 45%;
+  padding: 1%;
+}
+
+.newAuthor {
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
+  margin: 2%;
+  text-align: left;
+}
+
+.newAuthor:hover {
+  background-color: rgb(223, 221, 221);
+  color: rgb(46, 43, 43);
+  transition-duration: 250ms;
+  border: 1px solid red;
+  box-sizing: border-box;
+}
+
+.newAuthor > p {
+  width: 50%;
+}
+
+.newAuthor > img {
+  width: 50%;
+  border-radius: 25%;
+  border: 2px solid black;
+}
+
+.newAuthor > p:last-child {
+  margin-top: 5%;
+  width: 100%;
+}
+
+.picture {
+  max-width: 25%;
+  max-height: 25%;
+}
+
+.picture:hover {
+  opacity: 0.75;
+  cursor: pointer;
+  transition-duration: 500ms;
+}

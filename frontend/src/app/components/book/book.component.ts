@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BookDetailsResponse } from '../../model/BookDetailsResponse';
 import { BasketService } from '../../services/basket.service';
 import { UserService } from '../../services/user.service';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-book',
@@ -18,18 +19,24 @@ export class BookComponent implements OnInit {
   constructor(private bookService: BookService,
               private route: ActivatedRoute,
               private basketService: BasketService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private storageService: StorageService) { }
 
   ngOnInit(): void {
-    this.userService
-        .getRoles()
-        .subscribe({
-          next: data => this.isAdmin = data.includes("ROLE_ADMIN"),
-          error: err => {
-            console.log(err)
-            this.isAdmin = false;
-          }
-        })
+    if(this.storageService.isLoggedIn()) {
+      this.userService
+          .getRoles()
+          .subscribe({
+            next: data => this.isAdmin = data.includes("ROLE_ADMIN"),
+            error: err => {
+              console.log(err)
+              this.isAdmin = false;
+            }
+          })
+
+    } else {
+      this.isAdmin = false;
+    }
 
     this.route
         .params

@@ -49,4 +49,10 @@ public class Author {
         this.description = description;
         this.picture = picture;
     }
+
+    @SuppressWarnings("unused")
+    public Author(final Long authorId, final String name) {
+        this.authorId = authorId;
+        this.name = name;
+    }
 }

@@ -20,7 +20,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               private authService: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req =this.setTokenHeader(req);
+    req = this.setTokenHeader(req);
 
     return next.handle(req).pipe(
       catchError((error) => {
