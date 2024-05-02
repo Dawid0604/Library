@@ -23,6 +23,7 @@
 		<module>utils</module>
 		<module>jwt</module>
         <module>book</module>
+        <module>model</module>
     </modules>
 
     <properties>

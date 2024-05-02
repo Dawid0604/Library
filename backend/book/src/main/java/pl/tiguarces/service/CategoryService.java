@@ -3,8 +3,9 @@ package pl.tiguarces.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.tiguarces.model.Category;
-import pl.tiguarces.repository.CategoryRepository;
+import org.springframework.transaction.annotation.Transactional;
+import pl.tiguarces.book.entity.Category;
+import pl.tiguarces.book.repository.CategoryRepository;
 
 import java.util.List;
 
@@ -14,10 +15,12 @@ import java.util.List;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
+    @Transactional(readOnly = true)
     public List<Category> getCategories() {
         return categoryRepository.findAllParentsWithoutBooks();
     }
 
+    @Transactional(readOnly = true)
     public List<Category> getSubCategories(final String parentCategory) {
         return categoryRepository.findAllSubCategoriesWithoutBooks(parentCategory);
     }

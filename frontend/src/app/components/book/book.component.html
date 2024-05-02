@@ -58,11 +58,6 @@
           {{ book.numberOfPages ? book.numberOfPages : 'Unknown' }}
         </p>
 
-        <p> <b>Stars:</b>
-          &nbsp;
-          {{ book.numberOfStars ? book.numberOfStars : 'Unknown' }}
-        </p>
-
         <p> <b>Publication year:</b>
           &nbsp;
           {{ book.publicationYear ? book.publicationYear : 'Unknown' }}
@@ -99,5 +94,225 @@
         <p>{{ author.description }}</p>
       </div>
     }
+  </div>
+
+  <div id="reactions">
+    <h1>Reactions</h1>
+
+    <div id="reactionBox">
+      <div id="userBoard">
+        @if(userReactionIsPresent()) {
+            <div class="user" style="width: 25%;" [id]="userReaction.reactionId">
+              <p>
+                {{ userReaction.userUsername }} <br>
+                <span style="font-size: smaller;">{{ userReaction.date }}</span>
+              </p>
+
+              <img [src]="userReaction.userAvatar">
+              <p>
+                @if(editBoxIsActive) {
+                  <p [ngStyle]="{'color': defaultStarColor, 'margin-left': '2%'}">
+                    <span (click)="selectStar(1)" id="firstStar"  (mouseenter)="fillStars($event.target)" (mouseleave)="firstStarIsSelected  || resetBackgrounds()" [ngStyle]="{'color': firstStarIsPresent  ? presentStarColor : defaultStarColor}" style='font-size: 150%;'>&#9733;</span>
+                    <span (click)="selectStar(2)" id="secondStar" (mouseenter)="fillStars($event.target)" (mouseleave)="secondStarIsSelected || resetBackgrounds()" [ngStyle]="{'color': secondStarIsPresent ? presentStarColor : defaultStarColor}" style='font-size: 150%;'>&#9733;</span>
+                    <span (click)="selectStar(3)" id="thirdStar"  (mouseenter)="fillStars($event.target)" (mouseleave)="thirdStarIsSelected  || resetBackgrounds()" [ngStyle]="{'color': thirdStarIsPresent  ? presentStarColor : defaultStarColor}" style='font-size: 150%;'>&#9733;</span>
+                    <span (click)="selectStar(4)" id="forthStar"  (mouseenter)="fillStars($event.target)" (mouseleave)="forthStarIsSelected  || resetBackgrounds()" [ngStyle]="{'color': forthStarIsPresent  ? presentStarColor : defaultStarColor}" style='font-size: 150%;'>&#9733;</span>
+                    <span (click)="selectStar(5)" id="fifthStar"  (mouseenter)="fillStars($event.target)" (mouseleave)="fifthStarIsSelected  || resetBackgrounds()" [ngStyle]="{'color': fifthStarIsPresent  ? presentStarColor : defaultStarColor}" style='font-size: 150%;'>&#9733;</span>
+                  </p>
+
+                } @else {
+                  @switch (userReaction.numberOfStars) {
+                    @case (1) {
+                      <span style="font-size: 150%;">&#9733;</span>
+                    }
+
+                    @case (2) {
+                      <span style="font-size: 150%;">&#9733;</span>
+                      <span style="font-size: 150%;">&#9733;</span>
+                    }
+
+                    @case (3) {
+                      <span style="font-size: 150%;">&#9733;</span>
+                      <span style="font-size: 150%;">&#9733;</span>
+                      <span style="font-size: 150%;">&#9733;</span>
+                    }
+
+                    @case (4) {
+                      <span style="font-size: 150%;">&#9733;</span>
+                      <span style="font-size: 150%;">&#9733;</span>
+                      <span style="font-size: 150%;">&#9733;</span>
+                      <span style="font-size: 150%;">&#9733;</span>
+                    }
+
+                    @case (5) {
+                      <span style="font-size: 150%;">&#9733;</span>
+                      <span style="font-size: 150%;">&#9733;</span>
+                      <span style="font-size: 150%;">&#9733;</span>
+                      <span style="font-size: 150%;">&#9733;</span>
+                      <span style="font-size: 150%;">&#9733;</span>
+                    }
+                  }
+                }
+              </p>
+
+              <div>
+                <button class="btn btn-warning btn-block" (click)="activeEditBox()">Edit</button>
+                <button style="margin-left: 5%;" class="btn btn-danger btn-block" (click)="deleteUserReaction()">Delete</button>
+
+                @if(editBoxIsActive) {
+                  <button style="margin-left: 5%; margin-top: 5%;" class="btn btn-success btn-block" [disabled]="!firstStarIsSelected && !secondStarIsSelected && !thirdStarIsSelected && !forthStarIsSelected && !fifthStarIsSelected && !form.comment" (click)="updateReaction()">Update</button>
+                }
+              </div>
+            </div>
+
+            <div class="description" style="background-color: rgb(240, 240, 240);" [ngStyle]="{ 'border-color': editBoxIsActive ? 'orange' : 'transparent',
+                                                                                                  'border': editBoxIsActive ? '3px solid orange' : '1px solid transparent' }">
+              @if(editBoxIsActive) {
+                <textarea [(ngModel)]="form.comment" style="resize: none; width: 95%; height: 95%; border: none;" placeholder="Edit your book">{{ userReaction.comment }}</textarea>
+
+              } @else {
+                <p>{{ userReaction.comment }}</p>
+              }
+            </div>
+
+        } @else {
+          <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+            <div>
+              <p [ngStyle]="{'color': defaultStarColor, 'margin-left': '2%'}">
+                <span (click)="selectStar(1)" id="firstStar"  (mouseenter)="fillStars($event.target)" (mouseleave)="firstStarIsSelected  || resetBackgrounds()" [ngStyle]="{'color': firstStarIsPresent  ? presentStarColor : defaultStarColor}" style='font-size: 450%;'>&#9733;</span>
+                <span (click)="selectStar(2)" id="secondStar" (mouseenter)="fillStars($event.target)" (mouseleave)="secondStarIsSelected || resetBackgrounds()" [ngStyle]="{'color': secondStarIsPresent ? presentStarColor : defaultStarColor}" style='font-size: 450%;'>&#9733;</span>
+                <span (click)="selectStar(3)" id="thirdStar"  (mouseenter)="fillStars($event.target)" (mouseleave)="thirdStarIsSelected  || resetBackgrounds()" [ngStyle]="{'color': thirdStarIsPresent  ? presentStarColor : defaultStarColor}" style='font-size: 450%;'>&#9733;</span>
+                <span (click)="selectStar(4)" id="forthStar"  (mouseenter)="fillStars($event.target)" (mouseleave)="forthStarIsSelected  || resetBackgrounds()" [ngStyle]="{'color': forthStarIsPresent  ? presentStarColor : defaultStarColor}" style='font-size: 450%;'>&#9733;</span>
+                <span (click)="selectStar(5)" id="fifthStar"  (mouseenter)="fillStars($event.target)" (mouseleave)="fifthStarIsSelected  || resetBackgrounds()" [ngStyle]="{'color': fifthStarIsPresent  ? presentStarColor : defaultStarColor}" style='font-size: 450%;'>&#9733;</span>
+              </p>
+            </div>
+
+            <div id="comment">
+              <textarea [(ngModel)]="form.comment"
+                        #comment="ngModel"
+                        name="comment"
+                        style="resize: none;" placeholder="What do you think about this book? Let others know!"></textarea>
+
+              <div class="form-group d-flex justify-content-end m-2">
+                @if(userIsLogged()) {
+                  <button type="submit" class="btn btn-primary btn-block" style="margin-right: 2em;"
+                         [disabled]="!firstStarIsSelected && !secondStarIsSelected && !thirdStarIsSelected && !forthStarIsSelected && !fifthStarIsSelected && !form.comment">Add reaction</button>
+                } @else {
+                  <button type="button" class="btn btn-secondary btn-block" style="margin-right: 2em;" title="You have to be logged to add reaction this book" routerLink="/login">Add reaction</button>
+                }
+              </div>
+            </div>
+          </form>
+        }
+      </div>
+
+      <div id="statistics">
+        <div>
+          <p>
+            <span style="font-size: 175%;">&#9733;</span>
+            {{ statistics.numberOfStars }} stars
+
+            <span style="font-size: 155%;">📝</span>
+            {{ statistics.numberOfComments }} comments
+          </p>
+
+          <p>
+            <span style="font-size: 175%;">&#9733;</span>
+            <span style="font-size: 175%;">&#9733;</span>
+            <span style="font-size: 175%;">&#9733;</span>
+            <span style="font-size: 175%;">&#9733;</span>
+            <span style="font-size: 175%;">&#9733;</span>
+            {{ statistics.numberOfFiveStars }} stars
+          </p>
+
+          <p>
+            <span style="font-size: 175%;">&#9733;</span>
+            <span style="font-size: 175%;">&#9733;</span>
+            <span style="font-size: 175%;">&#9733;</span>
+            <span style="font-size: 175%;">&#9733;</span>
+            {{ statistics.numberOfFourStars }} stars
+          </p>
+
+          <p>
+            <span style="font-size: 175%;">&#9733;</span>
+            <span style="font-size: 175%;">&#9733;</span>
+            <span style="font-size: 175%;">&#9733;</span>
+            {{ statistics.numberOfThreeStars }} stars
+          </p>
+
+          <p>
+            <span style="font-size: 175%;">&#9733;</span>
+            <span style="font-size: 175%;">&#9733;</span>
+            {{ statistics.numberOfTwoStars }} stars
+          </p>
+
+          <p>
+            <span style="font-size: 175%;">&#9733;</span>
+            {{ statistics.numberOfOneStars }} stars
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="userReactions">
+      <div id="pagination">
+        <button type="button">Page {{currentPage}}/{{numberOfpages}}</button>
+        <button (click)="changeDateSearchingOrder()" type="button" style="background-color: #dd9700;">Date {{ descSearchingFlag ? 'DESC' : 'ASC'}}</button>
+        <button (click)="changeCommentSearchingOrder()" type="button" [ngStyle]="{ 'background-color': commentSearchingFlag ? 'green' : '#c03131' }">Contain comments</button>
+        <button (click)="fetchPreviousReactions()" [disabled]="isEmpty || isFirst"  type="button">Previous page</button>
+        <button (click)="fetchNextReactions()" [disabled]="isEmpty || isLast" type="button">Next</button>
+        <button (click)="fetchLastReactions()" [disabled]="isEmpty || isLast" type="button">Last</button>
+      </div>
+
+      @for (reaction of reactions; track reaction) {
+        <div class="reaction">
+          <div class="user" [id]="reaction.reactionId">
+            <p>
+              {{ reaction.userUsername }} <br>
+              <span style="font-size: smaller;">{{ reaction.date }}</span>
+            </p>
+
+            <img [src]="reaction.userAvatar">
+            <p>
+              @switch (reaction.numberOfStars) {
+                @case (1) {
+                  <span style="font-size: 150%;">&#9733;</span>
+                }
+
+                @case (2) {
+                  <span style="font-size: 150%;">&#9733;</span>
+                  <span style="font-size: 150%;">&#9733;</span>
+                }
+
+                @case (3) {
+                  <span style="font-size: 150%;">&#9733;</span>
+                  <span style="font-size: 150%;">&#9733;</span>
+                  <span style="font-size: 150%;">&#9733;</span>
+                }
+
+                @case (4) {
+                  <span style="font-size: 150%;">&#9733;</span>
+                  <span style="font-size: 150%;">&#9733;</span>
+                  <span style="font-size: 150%;">&#9733;</span>
+                  <span style="font-size: 150%;">&#9733;</span>
+                }
+
+                @case (5) {
+                  <span style="font-size: 150%;">&#9733;</span>
+                  <span style="font-size: 150%;">&#9733;</span>
+                  <span style="font-size: 150%;">&#9733;</span>
+                  <span style="font-size: 150%;">&#9733;</span>
+                  <span style="font-size: 150%;">&#9733;</span>
+                }
+              }
+            </p>
+          </div>
+
+          <div class="description">
+            <p>{{ reaction.comment }}</p>
+          </div>
+        </div>
+      }
+
+    </div>
   </div>
 </main>

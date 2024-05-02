@@ -9,12 +9,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.tiguarces.JwtUtils;
-import pl.tiguarces.controller.model.UserPayload;
-import pl.tiguarces.model.AppUser;
-import pl.tiguarces.repository.AppUserRepository;
+import pl.tiguarces.user.dto.UserPayload;
+import pl.tiguarces.user.entity.AppUser;
+import pl.tiguarces.user.repository.AppUserRepository;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.*;
 import static pl.tiguarces.Constants.MESSAGE_KEY;
@@ -33,6 +35,13 @@ public class AppUserService {
         return (userDetails instanceof final User user)
                  ? new AppUser(user.getUsername(), user.getPassword(), user.getAuthorities())
                  : null;
+    }
+
+    public Optional<AppUser> getLoggedUserFromDb() {
+        var user = getLoggedUser();
+
+        return (user != null) ? repository.findByUsername(user.getUsername())
+                              : Optional.empty();
     }
 
     public ResponseEntity<?> register(final UserPayload payload) {
@@ -64,5 +73,11 @@ public class AppUserService {
 
     public Map<String, String> refreshToken(final String refreshToken) {
         return jwtUtils.refreshTokens(refreshToken);
+    }
+
+    @Transactional(readOnly = true)
+    public AppUser getById(final long loggedUserId) {
+        return repository.findById(loggedUserId)
+                         .orElseThrow();
     }
 }

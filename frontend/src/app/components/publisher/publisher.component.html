@@ -1,0 +1,26 @@
+<main id="main-container">
+  <div id="books">
+    @for (book of publisher.books; track book) {
+      <div class="card" [id]="book.bookId" [routerLink]="['/book', book.title, book.bookId]">
+        <img class="card-img-top" alt="Book image" [src]="book.mainPicture">
+        <div class="card-body book">
+          <h6 class="card-title" [title]="book.title">{{book.title.length > 60 ? book.title.substring(0, 60) + ".." : book.title}}</h6>
+
+          <div class="d-flex flex-wrap details">
+            <div class="stars">
+              Stars: {{book.numberOfStars}}
+            </div>
+
+            <div class="price">
+              {{book.price}}$
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div id="publisherDetails">
+    <h1>{{publisher.name}}</h1>
+  </div>
+</main>

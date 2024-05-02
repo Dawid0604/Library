@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.tiguarces.controller.model.UserPayload;
 import pl.tiguarces.service.AppUserService;
+import pl.tiguarces.user.dto.UserPayload;
 
 import java.util.Map;
 

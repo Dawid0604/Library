@@ -1,0 +1,97 @@
+#main-container {
+  min-height: 95vh;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#books {
+  width: 65%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1%;
+  box-sizing: border-box;
+}
+
+#books > div[class='card'] {
+  max-height: 45%;
+  width: 25%;
+  margin: 1%;
+  box-sizing: border-box;
+}
+
+.book {
+  background-color: #1c2020;
+  color: #ece5d8;
+  height: 25%;
+}
+
+.details {
+  width: 100%;
+  background-color: gray;
+}
+
+.details > div {
+  width: 50%;
+  text-align: center;
+}
+
+.details > div:first-child {
+  border-right: 2px solid black;
+  box-sizing: border-box;
+}
+
+.card > img {
+  max-height: 75%;
+}
+
+.card {
+  cursor: pointer;
+  width: 17em;
+  margin: 1em;
+  max-height: 50%;
+  border: none;
+}
+
+.price {
+  background-color: rgb(209, 147, 32);
+}
+
+#authorDetails {
+  width: 30%;
+  background-color: rgb(235, 226, 222);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1%;
+  box-sizing: border-box;
+  max-height: 75vh;
+  height: auto;
+  margin-top: 1%;
+  margin-right: 1%;
+  border-radius: 15px;
+}
+
+#authorDetails > img {
+  max-height: 25%;
+  width: auto;
+  border-radius: 25%;
+}
+
+#authorDetails > h1 {
+  width: 100%;
+  min-height: 5%;
+  text-align: center;
+}
+
+#description {
+  min-height: 50%;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}

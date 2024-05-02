@@ -5,18 +5,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.tiguarces.controller.request.NewAuthorRequest;
-import pl.tiguarces.controller.request.NewBookRequest;
-import pl.tiguarces.controller.request.SearchBookRequest;
-import pl.tiguarces.controller.response.BookDetailsResponse;
-import pl.tiguarces.model.Author;
-import pl.tiguarces.model.Book;
-import pl.tiguarces.model.Picture;
-import pl.tiguarces.model.Publisher;
-import pl.tiguarces.repository.AuthorRepository;
-import pl.tiguarces.repository.BookRepository;
-import pl.tiguarces.repository.CategoryRepository;
-import pl.tiguarces.repository.PublisherRepository;
+import pl.tiguarces.book.dto.request.NewAuthorRequest;
+import pl.tiguarces.book.dto.request.NewBookRequest;
+import pl.tiguarces.book.dto.request.SearchBookRequest;
+import pl.tiguarces.book.dto.response.BookDetailsResponse;
+import pl.tiguarces.book.dto.response.BookResponse;
+import pl.tiguarces.book.entity.Author;
+import pl.tiguarces.book.entity.Book;
+import pl.tiguarces.book.entity.Picture;
+import pl.tiguarces.book.entity.Publisher;
+import pl.tiguarces.book.repository.AuthorRepository;
+import pl.tiguarces.book.repository.BookRepository;
+import pl.tiguarces.book.repository.CategoryRepository;
+import pl.tiguarces.book.repository.PublisherRepository;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -37,10 +38,11 @@ public class BookService {
     private static final String SEMICOLON = ";";
     private static final Pattern SEMICOLON_PATTERN = Pattern.compile(SEMICOLON);
 
-    public Page<Book> findAll(final SearchBookRequest request) {
+    public Page<BookResponse> findAll(final SearchBookRequest request) {
         return bookRepository.findAllByRequest(request.getCategory(), request.getPriceFrom(), request.getPriceTo(),
                                                request.getNumberOfPagesFrom(), request.getNumberOfPagesTo(), request.getPublicationYearFrom(),
-                                               request.getPublicationYearTo(), request.getCover(), PageRequest.of(request.getPage(), request.getSize()));
+                                               request.getPublicationYearTo(), request.getCover(), PageRequest.of(request.getPage(), request.getSize()))
+                             .map(BookResponse::map);
     }
 
     @Transactional(readOnly = true)
@@ -80,7 +82,7 @@ public class BookService {
 
             return Optional.of(new BookDetailsResponse(bookId, book.getTitle(), book.getPrice(), book.getOriginalPrice(),
                                                                book.getQuantity(), book.getPublisher(), authors, book.getNumberOfPages(),
-                                                               book.getEdition(), book.getNumberOfStars(), book.getPublicationYear(), book.getDescription(),
+                                                               book.getEdition(), book.getPublicationYear(), book.getDescription(),
                                                                category, subCategory, pictures, book.getCover().toString()));
 
         } else return Optional.empty();
