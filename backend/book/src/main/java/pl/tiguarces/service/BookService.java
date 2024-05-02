@@ -41,7 +41,7 @@ public class BookService {
     public Page<BookResponse> findAll(final SearchBookRequest request) {
         return bookRepository.findAllByRequest(request.getCategory(), request.getPriceFrom(), request.getPriceTo(),
                                                request.getNumberOfPagesFrom(), request.getNumberOfPagesTo(), request.getPublicationYearFrom(),
-                                               request.getPublicationYearTo(), request.getCover(), PageRequest.of(request.getPage(), request.getSize()))
+                                               request.getPublicationYearTo(), request.getCover(), request.getTitle(), PageRequest.of(request.getPage(), request.getSize()))
                              .map(BookResponse::map);
     }
 

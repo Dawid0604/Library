@@ -26,12 +26,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
                   (:numberOfPagesTo IS NULL OR b.numberOfPages <= :numberOfPagesTo) AND
                   (:publicationYearFrom IS NULL OR b.publicationYear >= :publicationYearFrom) AND
                   (:publicationYearTo IS NULL OR b.publicationYear <= :publicationYearTo) AND
+                  (:title IS NULL OR UPPER(b.title) LIKE UPPER(CONCAT('%', :title, '%'))) AND
                   (:cover IS NULL OR b.cover = :cover)
             ORDER BY b.bookId DESC
            """)
     Page<Book> findAllByRequest(String category, Double priceFrom, Double priceTo, Integer numberOfPagesFrom,
                                 Integer numberOfPagesTo, Integer publicationYearFrom, Integer publicationYearTo,
-                                BookCover cover, Pageable pageable);
+                                BookCover cover, String title, Pageable pageable);
 
     @Transactional(readOnly = true)
     @Query("SELECT new pl.tiguarces.book.entity.Book(b.bookId, b.title, b.price, b.originalPrice, b.mainPicture) FROM Book b WHERE b.bookId IN :bookIds")

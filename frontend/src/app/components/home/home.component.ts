@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
     numberOfpagesTo: null,
     publicationYearFrom: null,
     publicationYearTo: null,
+    title: null,
     cover: null
   };
 
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit {
   isFirst: boolean = true;
   totalElements: number = 0;
 
+  showTitleBoxFlag: boolean = false;
   showSubCategoriesBoxFlag: boolean = false;
   showCategoryBoxFlag: boolean = false;
   showPriceBoxFlag: boolean = false;
@@ -132,6 +134,7 @@ export class HomeComponent implements OnInit {
     this.searchBookRequest.priceTo = this.form.priceTo;
     this.searchBookRequest.publicationYearFrom = this.form.publicationYearFrom;
     this.searchBookRequest.publicationYearTo = this.form.publicationYearTo;
+    this.searchBookRequest.title = this.form.title;
 
     this.fetchBooks(this.searchBookRequest);
 
@@ -144,7 +147,9 @@ export class HomeComponent implements OnInit {
     this.searchBookRequest.priceTo = undefined;
     this.searchBookRequest.publicationYearFrom = undefined;
     this.searchBookRequest.publicationYearTo = undefined;
+    this.searchBookRequest.title = undefined;
 
+    this.form.title = null;
     this.selectedCategory = '';
     this.form.page = null;
     this.form.category = null;
@@ -162,6 +167,7 @@ export class HomeComponent implements OnInit {
     this.showNumberOfPagesBoxFlag = false;
     this.showCategoryBoxFlag = false;
     this.showPublicationYearBoxFlag = false;
+    this.showTitleBoxFlag = false;
   }
 
   showCategoryBox(): void {
@@ -169,6 +175,7 @@ export class HomeComponent implements OnInit {
     this.showNumberOfPagesBoxFlag = false;
     this.showPriceBoxFlag = false;
     this.showPublicationYearBoxFlag = false;
+    this.showTitleBoxFlag = false;
   }
 
   showNumberOfPagesBox(): void {
@@ -176,6 +183,7 @@ export class HomeComponent implements OnInit {
     this.showPriceBoxFlag = false;
     this.showCategoryBoxFlag = false;
     this.showPublicationYearBoxFlag = false;
+    this.showTitleBoxFlag = false
   }
 
   showPublicationYearBox(): void {
@@ -183,6 +191,7 @@ export class HomeComponent implements OnInit {
     this.showPriceBoxFlag = false;
     this.showCategoryBoxFlag = false;
     this.showNumberOfPagesBoxFlag = false;
+    this.showTitleBoxFlag = false;
   }
 
   showCoverBox(): void {
@@ -191,5 +200,15 @@ export class HomeComponent implements OnInit {
     this.showCategoryBoxFlag = false;
     this.showNumberOfPagesBoxFlag = false;
     this.showPublicationYearBoxFlag = false;
+    this.showTitleBoxFlag = false;
+  }
+
+  showTitleBox(): void {
+    this.showTitleBoxFlag = !this.showTitleBoxFlag;
+    this.showPriceBoxFlag = false;
+    this.showCategoryBoxFlag = false;
+    this.showNumberOfPagesBoxFlag = false;
+    this.showPublicationYearBoxFlag = false;
+    this.showCoverBoxFlag = false;
   }
 }

@@ -9,5 +9,6 @@ export interface SearchBookRequest {
   numberOfPagesTo: number|undefined,
   publicationYearFrom: number|undefined,
   publicationYearTo: number|undefined,
-  cover: BookCover|undefined
+  cover: BookCover|undefined,
+  title: string|undefined
 }

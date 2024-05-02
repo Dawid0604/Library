@@ -7,6 +7,7 @@ import pl.tiguarces.book.entity.BookCover;
 public final class SearchBookRequest {
     private final int page;
     private final int size = 10;
+    private final String title;
     private final String category;
     private final Double priceFrom;
     private final Double priceTo;
@@ -16,11 +17,13 @@ public final class SearchBookRequest {
     private final Integer publicationYearTo;
     private final BookCover cover;
 
-    public SearchBookRequest(Integer page, String category, Double priceFrom,
-                             Double priceTo, Integer numberOfPagesFrom, Integer numberOfPagesTo,
-                             Integer publicationYearFrom, Integer publicationYearTo, BookCover cover) {
+    public SearchBookRequest(final Integer page, final String category, final Double priceFrom,
+                             final Double priceTo, final Integer numberOfPagesFrom, final Integer numberOfPagesTo,
+                             final Integer publicationYearFrom, final Integer publicationYearTo, final BookCover cover,
+                             final String title) {
 
         this.page = (page == null) ? 0 : page;
+        this.title = title;
         this.category = category;
         this.priceFrom = priceFrom;
         this.priceTo = priceTo;

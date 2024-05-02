@@ -10,6 +10,24 @@
 
     <div id="categories">
       <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+        <button type="button" class="btn btn-primary btn-block w-100 mt-2" (click)="showTitleBox()">
+          Title
+        </button>
+
+        @if(showTitleBoxFlag) {
+          <div class="box">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Should containing"
+                   name="title"
+                   [(ngModel)]="form.title"
+                   minlength="1"
+                   min="1"
+                   #title="ngModel"
+                   style="text-align: center;">
+          </div>
+        }
+
         <button type="button" class="btn btn-primary btn-block w-100 mt-2" (click)="showCategoryBox()">
           Categories
         </button>
