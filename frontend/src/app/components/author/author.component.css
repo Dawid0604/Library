@@ -72,6 +72,8 @@
   margin-top: 1%;
   margin-right: 1%;
   border-radius: 15px;
+  overflow-y: scroll;
+  border-top-right-radius: 0;
 }
 
 #authorDetails > img {

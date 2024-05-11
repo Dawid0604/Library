@@ -143,7 +143,7 @@
                      name="cover"
                      [(ngModel)]="form.cover"
                      #cover="ngModel"
-                     value=""
+                     value="Hard"
                      id="Hard">
 
               <label class="form-check-label" for="Hard">
@@ -157,7 +157,7 @@
                      name="cover"
                      [(ngModel)]="form.cover"
                      #cover="ngModel"
-                     value=""
+                     value="Soft"
                      id="Soft">
 
               <label class="form-check-label" for="Soft">
@@ -180,10 +180,10 @@
         <div class="card" [id]="book.bookId" (click)="openBook(book.title, book.bookId)">
           <img class="card-img-top" alt="Book image" [src]="book.mainPicture">
           <div class="card-body book">
-            <h6 class="card-title" [title]="book.title">{{book.title.length > 60 ? book.title.substring(0, 60) + ".." : book.title}}</h6>
+            <h6 style="height: 65%;" class="card-title" [title]="book.title">{{book.title.length > 60 ? book.title.substring(0, 60) + ".." : book.title}}</h6>
 
-            <div class="d-flex flex-wrap details">
-              <div class="price">
+            <div class="d-flex flex-wrap details" style="height: 15%;">
+              <div class="price" style="width: 100%;">
                 {{book.price}}$
               </div>
             </div>

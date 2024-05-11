@@ -2,16 +2,14 @@ package pl.tiguarces.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.tiguarces.service.AppUserService;
 import pl.tiguarces.user.dto.UserPayload;
 
 import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
+import static org.springframework.http.HttpStatus.OK;
 import static pl.tiguarces.JwtUtils.REFRESH_TOKEN;
 
 @RestController
@@ -29,6 +27,12 @@ public class AuthorizationController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody final UserPayload payload) {
         return userService.register(payload);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> delete() {
+        userService.deleteAccount();
+        return new ResponseEntity<>(OK);
     }
 
     @PostMapping("/refresh")

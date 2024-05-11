@@ -2,9 +2,9 @@ package pl.tiguarces.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.tiguarces.book.dto.request.UpdateUserRequest;
+import pl.tiguarces.book.dto.response.UserDetailsResponse;
 import pl.tiguarces.service.AppUserService;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -18,7 +18,17 @@ public class UserDetailsController {
 
     @GetMapping("/details")
     public ResponseEntity<?> getUserDetails() {
-        return new ResponseEntity<>(appUserService.getLoggedUser(), OK);
+        var result = appUserService.getLoggedUserFromDb()
+                                   .map(UserDetailsResponse::map)
+                                   .orElseThrow();
+
+        return new ResponseEntity<>(result, OK);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody final UpdateUserRequest request) {
+        appUserService.update(request);
+        return new ResponseEntity<>(OK);
     }
 
     @GetMapping("/roles")

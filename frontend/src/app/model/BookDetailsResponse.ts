@@ -7,7 +7,7 @@ export interface BookDetailsResponse {
   publisher: PublisherDetailsResponse,
   authors: Array<AuthorDetailsResponse>,
   numberOfPages: number,
-  edition: number,
+  edition: string,
   numberOfStars: number,
   publicationYear: number,
   description: string,

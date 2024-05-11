@@ -1,18 +1,73 @@
-@if (currentUser) {
-  <div class="container">
-    <header class="jumbotron">
+@if (currentUser && currentUser.username) {
+  <div id="main-container">
+    <div id="username">
       <h3>
         <strong> {{currentUser.username}} </strong> Profile
       </h3>
-    </header>
+      <img id="avatar" [src]="currentUser.avatar || defaultImage">
+    </div>
 
-    <strong>Roles:</strong>
-    <ul>
-      @for (role of currentUser.roles; track role) {
-        <li> {{role}} </li>
-      }
-    </ul>
+    <main>
+      <div id="actions">
+        <button (click)="showLastReactionsBox()" class="btn btn-success" [disabled]="!userReactions">Show last reactions</button>
+        <button (click)="showEditAvatarBox()" class="btn btn-warning">Edit Avatar</button>
+        <button (click)="deleteProfile()" class="btn btn-danger">Delete</button>
+      </div>
 
+      <div id="content">
+        @if(showReactionsFlag) {
+          @for(reaction of userReactions; track reaction) {
+            <div class="singleReaction" title="Move to book" [routerLink]="['/book', reaction.book.title, reaction.book.bookId]">
+              <div>
+                <img [src]="reaction.book.mainPicture" style="border: 1px solid black;">
+              </div>
+
+              <div class="reactionTitle">
+                <p>{{reaction.book.title}}</p>
+              </div>
+            </div>
+          }
+
+        } @else if(showEditProfileFlag) {
+          <div id="editBox">
+            <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+              <div class="form-group p-3">
+                <h5 for="newPassword">Password</h5>
+                <input type="password"
+                       class="form-control"
+                       name="newPassword"
+                       [(ngModel)]="form.newPassword"
+                       placeholder="New password"
+                       #newPassword="ngModel"
+                       [ngClass]="{ 'is-invalid': f.submitted && newPassword.errors }">
+
+                       @if(f.submitted && newPasswordIsLowerThanSixCharactersValidationFlag) {
+                        <div style="color: red;">Password must be at least 6 characters</div>
+                      }
+              </div>
+
+              <div class="form-group p-3">
+                <h5 for="newAvatar">Avatar</h5>
+                <div id="avatar">
+                  <img [src]="form.newAvatar" (error)="handleImageError($event)">
+                </div>
+
+                <input type="url"
+                       class="form-control"
+                       name="avatar"
+                       [(ngModel)]="form.newAvatar"
+                       placeholder="New avatar"
+                       #avatar="ngModel">
+              </div>
+
+              <div class="form-group d-flex justify-content-end m-2">
+                <button type="submit" class="btn btn-warning btn-block w-25" style="margin-right: 2em;">Update</button>
+              </div>
+            </form>
+          </div>
+        }
+      </div>
+    </main>
   </div>
 
 } @else {

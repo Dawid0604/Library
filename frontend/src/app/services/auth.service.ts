@@ -34,4 +34,7 @@ export class AuthService {
     return this.httpClient.post(`${this.BASE_API_URL}/refresh`, { "refreshToken": refreshToken }, this.httpOptions);
   }
 
+  delete(): Observable<any> {
+    return this.httpClient.delete(`${this.BASE_API_URL}/delete`);
+  }
 }

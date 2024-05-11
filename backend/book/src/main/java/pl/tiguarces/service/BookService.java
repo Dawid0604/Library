@@ -1,5 +1,6 @@
 package pl.tiguarces.service;
 
+import com.github.chaosfirebolt.converter.RomanInteger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -80,10 +81,13 @@ public class BookService {
                 category = bookCategory.getName();
             }
 
+            String edition = RomanInteger.parse(String.valueOf(book.getEdition()))
+                                         .getRoman();
+
             return Optional.of(new BookDetailsResponse(bookId, book.getTitle(), book.getPrice(), book.getOriginalPrice(),
                                                                book.getQuantity(), book.getPublisher(), authors, book.getNumberOfPages(),
-                                                               book.getEdition(), book.getPublicationYear(), book.getDescription(),
-                                                               category, subCategory, pictures, book.getCover().toString()));
+                                                               edition, book.getPublicationYear(), book.getDescription(),
+                                                               category, subCategory, pictures, book.getCover().getCoverName()));
 
         } else return Optional.empty();
     }

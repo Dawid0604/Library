@@ -12,13 +12,17 @@ export class UserService {
   public readonly ADMIN_BOARD_KEY = 'ADMIN_BOARD';
   public readonly USER_BOARD_KEY = 'USER_BOARD';
 
-  constructor(private htppClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
   getDetails(): Observable<any> {
-    return this.htppClient.get(`${this.BASE_API_URL}/details`);
+    return this.httpClient.get(`${this.BASE_API_URL}/details`);
+  }
+
+  update(payload: any): Observable<any> {
+    return this.httpClient.put(`${this.BASE_API_URL}/update`, payload);
   }
 
   getRoles(): Observable<any> {
-    return this.htppClient.get(`${this.BASE_API_URL}/roles`, { responseType: 'text' });
+    return this.httpClient.get(`${this.BASE_API_URL}/roles`, { responseType: 'text' });
   }
 }

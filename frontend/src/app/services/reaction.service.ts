@@ -17,11 +17,15 @@ export class ReactionService {
       params: {
         "bookId": bookId,
         "page": page,
-        "size": 2,
+        "size": 10,
         "comments": comments,
         "sort": (descSearching ? "DESC" : "ASC")
       }
     });
+  }
+
+  getUserReactions(): Observable<any> {
+    return this.httpClient.get(`${this.BASE_API}/user/get-all`);
   }
 
   addReaction(request: any): Observable<any> {

@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.tiguarces.JwtUtils;
+import pl.tiguarces.book.dto.request.UpdateUserRequest;
 import pl.tiguarces.user.dto.UserPayload;
 import pl.tiguarces.user.entity.AppUser;
 import pl.tiguarces.user.repository.AppUserRepository;
@@ -18,6 +19,7 @@ import pl.tiguarces.user.repository.AppUserRepository;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.http.HttpStatus.*;
 import static pl.tiguarces.Constants.MESSAGE_KEY;
 
@@ -37,6 +39,7 @@ public class AppUserService {
                  : null;
     }
 
+    @Transactional(readOnly = true)
     public Optional<AppUser> getLoggedUserFromDb() {
         var user = getLoggedUser();
 
@@ -76,8 +79,31 @@ public class AppUserService {
     }
 
     @Transactional(readOnly = true)
-    public AppUser getById(final long loggedUserId) {
+    public AppUser findById(final long loggedUserId) {
         return repository.findById(loggedUserId)
                          .orElseThrow();
+    }
+
+    @Transactional
+    public void deleteAccount() {
+        repository.deleteByUsername(getLoggedUser().getUsername());
+    }
+
+    @Transactional
+    public void update(final UpdateUserRequest request) {
+        var loggedUser = getLoggedUserFromDb().orElseThrow();
+        boolean shouldUpdate = false;
+
+        if(isNotBlank(request.password()) && !passwordEncoder.matches(loggedUser.getPassword(), request.password())) {
+            loggedUser.setPassword(passwordEncoder.encode(request.password()));     shouldUpdate = true;
+        }
+
+        if(isNotBlank(request.avatar())) {
+            loggedUser.setAvatar(request.avatar());                                 shouldUpdate = true;
+        }
+
+        if(shouldUpdate) {
+            repository.save(loggedUser);
+        }
     }
 }

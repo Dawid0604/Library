@@ -8,7 +8,9 @@ import { AuthService } from '../services/auth.service';
 export class HttpRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private readonly endpointsWithoutToken: string[] = [
-    "/api/auth/",
+    "/api/auth/login",
+    "/api/auth/register",
+    "/api/auth/refresh",
     "/api/book/fetch",
     "/api/category",
     "/api/basket/fetch",

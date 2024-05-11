@@ -5,14 +5,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.tiguarces.book.dto.request.UserBookReactionRequest;
 import pl.tiguarces.book.dto.response.BookReactionsResponse;
 import pl.tiguarces.book.dto.response.BookReactionsResponse.Reaction;
+import pl.tiguarces.book.dto.response.BookResponse;
+import pl.tiguarces.book.dto.response.UserBookReactionResponse;
 import pl.tiguarces.book.entity.UserBookReaction;
 import pl.tiguarces.book.repository.BookRepository;
 import pl.tiguarces.book.repository.UserBookReactionRepository;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -34,7 +41,7 @@ public class UserBookReactionService {
     }
 
     @Transactional
-    public void addBookReaction(final BookReactionRequest newBookReaction) {
+    public void addBookReaction(final UserBookReactionRequest newBookReaction) {
         var user = appUserService.getLoggedUserFromDb();
 
         if(user.isPresent()) {
@@ -44,14 +51,14 @@ public class UserBookReactionService {
             userBookReactionRepository.save(UserBookReaction.builder()
                                                             .book(book)
                                                             .comment(newBookReaction.comment())
-                                                            .user(appUserService.getById(user.get().getUserId()))
-                                                            .numberOfStars(newBookReaction.numberOfStars())
+                                                            .user(appUserService.findById(user.get().getUserId()))
+                                                            .numberOfStars(newBookReaction.numberOfStars() != null ? newBookReaction.numberOfStars() : 0)
                                                             .build());
         }
     }
 
     @Transactional
-    public void editBookReaction(final BookReactionRequest newBookReaction) {
+    public void editBookReaction(final UserBookReactionRequest newBookReaction) {
         var existingUserReaction = getUserReaction(newBookReaction.bookId());
 
         if(existingUserReaction.isPresent()) {
@@ -123,5 +130,15 @@ public class UserBookReactionService {
         userBookReactionRepository.deleteById(reactionId);
     }
 
-    public record BookReactionRequest(long bookId, Integer numberOfStars, String comment) { }
+    @Transactional(readOnly = true)
+    public List<UserBookReactionResponse> getUserReactions() {
+        var loggedUser = appUserService.getLoggedUserFromDb()
+                                       .orElseThrow();
+
+        return Stream.ofNullable(loggedUser.getBookReactions())
+                     .limit(3)
+                     .flatMap(List::stream)
+                     .map(_reaction -> UserBookReactionResponse.map(_reaction, BookResponse.map(_reaction.getBook())))
+                     .collect(Collectors.toCollection(LinkedList::new));
+    }
 }

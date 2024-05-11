@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit {
 
   onSubmit(): void {
     this.searchBookRequest.category = this.form.category;
-    this.searchBookRequest.cover = this.form.cover;
+    this.searchBookRequest.cover = this.form.cover?.toUpperCase();
     this.searchBookRequest.numberOfPagesFrom = this.form.numberOfPagesFrom;
     this.searchBookRequest.numberOfPagesTo = this.form.numberOfPagesTo;
     this.searchBookRequest.priceFrom = this.form.priceFrom;
@@ -139,16 +139,6 @@ export class HomeComponent implements OnInit {
     this.fetchBooks(this.searchBookRequest);
 
     // Clear values
-    this.searchBookRequest.category = undefined;
-    this.searchBookRequest.cover = undefined;
-    this.searchBookRequest.numberOfPagesFrom = undefined;
-    this.searchBookRequest.numberOfPagesTo = undefined;
-    this.searchBookRequest.priceFrom = undefined;
-    this.searchBookRequest.priceTo = undefined;
-    this.searchBookRequest.publicationYearFrom = undefined;
-    this.searchBookRequest.publicationYearTo = undefined;
-    this.searchBookRequest.title = undefined;
-
     this.form.title = null;
     this.selectedCategory = '';
     this.form.page = null;

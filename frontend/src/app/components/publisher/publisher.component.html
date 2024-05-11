@@ -6,12 +6,8 @@
         <div class="card-body book">
           <h6 class="card-title" [title]="book.title">{{book.title.length > 60 ? book.title.substring(0, 60) + ".." : book.title}}</h6>
 
-          <div class="d-flex flex-wrap details">
-            <div class="stars">
-              Stars: {{book.numberOfStars}}
-            </div>
-
-            <div class="price">
+          <div class="d-flex flex-wrap details" style="height: 15%;">
+            <div class="price" style="width: 100%;">
               {{book.price}}$
             </div>
           </div>

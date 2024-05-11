@@ -3,6 +3,7 @@ package pl.tiguarces.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.tiguarces.book.dto.request.UserBookReactionRequest;
 import pl.tiguarces.service.UserBookReactionService;
 
 import static org.springframework.http.HttpStatus.*;
@@ -15,13 +16,13 @@ public class UserBookReactionController {
     private final UserBookReactionService userBookReactionService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> addNewReaction(@RequestBody final UserBookReactionService.BookReactionRequest request) {
+    public ResponseEntity<?> addNewReaction(@RequestBody final UserBookReactionRequest request) {
         userBookReactionService.addBookReaction(request);
         return new ResponseEntity<>(CREATED);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<?> editReaction(@RequestBody final UserBookReactionService.BookReactionRequest request) {
+    public ResponseEntity<?> editReaction(@RequestBody final UserBookReactionRequest request) {
         userBookReactionService.editBookReaction(request);
         return new ResponseEntity<>(OK);
     }
@@ -49,5 +50,11 @@ public class UserBookReactionController {
 
         var result = userBookReactionService.getBookReactions(page, size, comments, sort, bookId);
         return new ResponseEntity<>(result, OK);
+    }
+
+    @GetMapping("/user/get-all")
+    public ResponseEntity<?> getUserReactions() {
+        var result = userBookReactionService.getUserReactions();
+        return new ResponseEntity<>(result, result.isEmpty() ? NO_CONTENT : OK);
     }
 }
