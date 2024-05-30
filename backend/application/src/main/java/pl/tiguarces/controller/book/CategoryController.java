@@ -1,4 +1,4 @@
-package pl.tiguarces.controller;
+package pl.tiguarces.controller.book;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ public class CategoryController {
 
     @GetMapping("/fetch")
     public ResponseEntity<?> fetchCategories() {
-        var result = categoryService.getCategories();
+        var result = categoryService.findCategories();
         return new ResponseEntity<>(result, result.isEmpty() ? NO_CONTENT : OK);
     }
 
     @GetMapping("/fetch/sub")
     public ResponseEntity<?> fetchSubCategories(@RequestParam(name = "parent") final String parentCategory) {
-        var result = categoryService.getSubCategories(parentCategory);
+        var result = categoryService.findSubCategories(parentCategory);
         return new ResponseEntity<>(result, result.isEmpty() ? NO_CONTENT : OK);
     }
 }

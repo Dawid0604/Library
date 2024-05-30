@@ -17,7 +17,8 @@ import pl.tiguarces.user.entity.AppUser;
 import pl.tiguarces.user.repository.AppUserRepository;
 
 import java.util.Map;
-import java.util.Optional;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.springframework.http.HttpStatus.*;
@@ -40,14 +41,12 @@ public class AppUserService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<AppUser> getLoggedUserFromDb() {
-        var user = getLoggedUser();
-
-        return (user != null) ? repository.findByUsername(user.getUsername())
-                              : Optional.empty();
+    public AppUser getLoggedUserFromDb() throws NoSuchElementException {
+        return repository.findByUsername(getLoggedUser().getUsername())
+                         .orElseThrow();
     }
 
-    public ResponseEntity<?> register(final UserPayload payload) {
+    public ResponseEntity<Object> register(final UserPayload payload) {
         if(repository.existsByUsername(payload.username())) {
             return new ResponseEntity<>("User with username '%s' exists".formatted(payload.username()), BAD_REQUEST);
         }
@@ -56,7 +55,7 @@ public class AppUserService {
         return new ResponseEntity<>(OK);
     }
 
-    public ResponseEntity<?> generateTokens(final UserPayload payload) {
+    public ResponseEntity<Map<String, String>> generateTokens(final UserPayload payload) throws BadCredentialsException {
         var user = repository.findByUsername(payload.username());
 
         if(user.isEmpty()) {
@@ -79,7 +78,7 @@ public class AppUserService {
     }
 
     @Transactional(readOnly = true)
-    public AppUser findById(final long loggedUserId) {
+    public AppUser findById(final long loggedUserId) throws NoSuchElementException {
         return repository.findById(loggedUserId)
                          .orElseThrow();
     }
@@ -91,14 +90,14 @@ public class AppUserService {
 
     @Transactional
     public void update(final UpdateUserRequest request) {
-        var loggedUser = getLoggedUserFromDb().orElseThrow();
+        var loggedUser = getLoggedUserFromDb();
         boolean shouldUpdate = false;
 
         if(isNotBlank(request.password()) && !passwordEncoder.matches(loggedUser.getPassword(), request.password())) {
             loggedUser.setPassword(passwordEncoder.encode(request.password()));     shouldUpdate = true;
         }
 
-        if(isNotBlank(request.avatar())) {
+        if(isNotBlank(request.avatar()) && !Objects.equals(request.avatar(), loggedUser.getAvatar())) {
             loggedUser.setAvatar(request.avatar());                                 shouldUpdate = true;
         }
 

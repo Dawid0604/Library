@@ -1,4 +1,4 @@
-package pl.tiguarces.controller;
+package pl.tiguarces.controller.book;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -108,7 +108,6 @@ public class BookService {
              book.setCover(request.cover());
              book.setQuantity(request.quantity());
 
-        // TODO: set name as unique fields
         publisherRepository.findByName(request.publisher())
                            .ifPresentOrElse(book::setPublisher, () -> book.setPublisher(new Publisher(request.publisher(), book)));
 
@@ -133,7 +132,7 @@ public class BookService {
                                .orElse(new Author(request, book));
     }
 
-    public List<Book> collect(final List<Long> booksIds) {
+    public List<Book> findAllByIds(final List<Long> booksIds) {
         return (!isEmpty(booksIds)) ? bookRepository.findBooksById(booksIds)
                                     : emptyList();
     }

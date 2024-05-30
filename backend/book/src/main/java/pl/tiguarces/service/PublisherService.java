@@ -16,7 +16,7 @@ public class PublisherService {
     private final PublisherRepository publisherRepository;
 
     @Transactional(readOnly = true)
-    public Optional<PublisherService.PublisherBooksResponse> getPublisherBooks(final long publisherId) {
+    public Optional<PublisherService.PublisherBooksResponse> findPublisherBooks(final long publisherId) {
         return publisherRepository.findByPublisherId(publisherId)
                                   .map(this::map);
     }

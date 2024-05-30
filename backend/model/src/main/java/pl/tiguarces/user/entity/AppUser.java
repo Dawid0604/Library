@@ -11,6 +11,7 @@ import java.util.List;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Builder
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,6 +43,14 @@ public class AppUser {
         this.username = username;
         this.password = password;
         this.roles = "ROLE_USER";
+    }
+
+    public AppUser(final String username, final String password,
+                   final String roles) {
+
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
     }
 
     public AppUser(final String username, final String password, final Collection<? extends GrantedAuthority> roles) {

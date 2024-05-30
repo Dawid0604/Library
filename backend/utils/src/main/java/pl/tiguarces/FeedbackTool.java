@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static pl.tiguarces.Constants.MESSAGE_KEY;
 
 public final class FeedbackTool {
     private static final ObjectMapper jsonMapper = new ObjectMapper();
@@ -17,7 +18,7 @@ public final class FeedbackTool {
         if(response != null && status > 0 && isNotBlank(message)) {
             response.setStatus(status);
             response.getWriter()
-                    .write(jsonMapper.writeValueAsString(Map.of("Message", message)));
+                    .write(jsonMapper.writeValueAsString(Map.of(MESSAGE_KEY, message)));
         }
     }
 }

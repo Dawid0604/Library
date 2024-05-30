@@ -16,12 +16,12 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public List<Category> getCategories() {
+    public List<Category> findCategories() {
         return categoryRepository.findAllParentsWithoutBooks();
     }
 
     @Transactional(readOnly = true)
-    public List<Category> getSubCategories(final String parentCategory) {
+    public List<Category> findSubCategories(final String parentCategory) {
         return categoryRepository.findAllSubCategoriesWithoutBooks(parentCategory);
     }
 }

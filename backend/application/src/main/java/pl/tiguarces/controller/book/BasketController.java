@@ -1,4 +1,4 @@
-package pl.tiguarces.controller;
+package pl.tiguarces.controller.book;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class BasketController {
 
     @PostMapping("/fetch")
     public ResponseEntity<?> fetchBasket(@RequestBody final List<Long> books) {
-        var result = bookService.collect(books);
+        var result = bookService.findAllByIds(books);
         return (!isEmpty(result)) ? new ResponseEntity<>(result, OK)
                                   : new ResponseEntity<>(NO_CONTENT);
     }

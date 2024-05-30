@@ -1,4 +1,4 @@
-package pl.tiguarces.controller.utils;
+package pl.tiguarces.controller.user;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;

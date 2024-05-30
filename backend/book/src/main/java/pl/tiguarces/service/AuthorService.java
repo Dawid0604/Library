@@ -16,7 +16,7 @@ public class AuthorService {
     private final AuthorRepository authorRepository;
 
     @Transactional(readOnly = true)
-    public Optional<AuthorBooksResponse> getAuthorBooks(final long authorId) {
+    public Optional<AuthorBooksResponse> findAuthorBooks(final long authorId) {
         return authorRepository.findByAuthorId(authorId)
                                .map(this::map);
     }
@@ -31,7 +31,8 @@ public class AuthorService {
         return new AuthorBooksResponse(author.getName(), author.getDescription(), author.getPicture(), books);
     }
 
-    public List<Author> getAll() {
+    @Transactional(readOnly = true)
+    public List<Author> findAll() {
         return authorRepository.findAllAuthors();
     }
 

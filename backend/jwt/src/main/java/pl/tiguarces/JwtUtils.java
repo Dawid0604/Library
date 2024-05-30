@@ -18,6 +18,7 @@ import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS512;
+import static java.lang.System.currentTimeMillis;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -84,10 +85,10 @@ public class JwtUtils {
 
     public Claims getAllClaimsFromToken(final String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(signingKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+                   .setSigningKey(signingKey)
+                   .build()
+                   .parseClaimsJws(token)
+                   .getBody();
     }
 
     public String generateToken(final Map<String, Object> claims, final String subject, final String type) {
@@ -96,8 +97,8 @@ public class JwtUtils {
         return Jwts.builder()
                    .setClaims(claims)
                    .setSubject(subject)
-                   .setIssuedAt(new Date(System.currentTimeMillis()))
-                   .setExpiration(new Date(System.currentTimeMillis() + (type.equals(ACCESS_TOKEN_TYPE) ? expirationDate : refreshTokenExpirationDate)))
+                   .setIssuedAt(new Date(currentTimeMillis()))
+                   .setExpiration(new Date(currentTimeMillis() + (type.equals(ACCESS_TOKEN_TYPE) ? expirationDate : refreshTokenExpirationDate)))
                    .signWith(signingKey).compact();
     }
 }

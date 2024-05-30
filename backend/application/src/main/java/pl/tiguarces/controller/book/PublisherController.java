@@ -1,4 +1,4 @@
-package pl.tiguarces.controller;
+package pl.tiguarces.controller.book;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class PublisherController {
     private final PublisherService publisherService;
 
     @GetMapping("/books")
-    public ResponseEntity<?> getPublisherBooks(@RequestParam("publisherId") final long publisherId) {
-        var response = publisherService.getPublisherBooks(publisherId);
+    public ResponseEntity<?> findPublisherBooks(@RequestParam("publisherId") final long publisherId) {
+        var response = publisherService.findPublisherBooks(publisherId);
         return (response.isPresent()) ? new ResponseEntity<>(response, OK)
                                       : new ResponseEntity<>(NO_CONTENT);
     }

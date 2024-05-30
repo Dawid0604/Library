@@ -34,7 +34,7 @@ public class SecurityConfig {
 
     private static final String[] NOT_SECURED_ENDPOINTS = { "/api/auth/**", "/api/book/fetch/**", "/api/category/fetch/**",
                                                             "/api/basket/**", "/api/author/**", "/api/publisher/**",
-                                                            "/api/reaction/get-all/**"};
+                                                            "/api/reaction/get-all/**" };
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {

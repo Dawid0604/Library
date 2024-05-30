@@ -18,9 +18,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toCollection;
 import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static pl.tiguarces.book.dto.response.BookReactionsResponse.Reaction.map;
@@ -33,10 +33,8 @@ public class UserBookReactionService {
     private final AppUserService appUserService;
 
     @Transactional(readOnly = true)
-    public Optional<UserBookReaction> getUserReaction(final long bookId) {
-        var loggedUser = appUserService.getLoggedUserFromDb()
-                                       .orElseThrow();
-
+    public Optional<UserBookReaction> findUserBookReaction(final long bookId) {
+        var loggedUser = appUserService.getLoggedUserFromDb();
         return userBookReactionRepository.findByUserUserIdAndBookBookId(loggedUser.getUserId(), bookId);
     }
 
@@ -44,50 +42,39 @@ public class UserBookReactionService {
     public void addBookReaction(final UserBookReactionRequest newBookReaction) {
         var user = appUserService.getLoggedUserFromDb();
 
-        if(user.isPresent()) {
-            var book = bookRepository.findById(newBookReaction.bookId())
-                                     .orElseThrow(() -> new IllegalArgumentException("Book with given Id not found >> BookId: " + newBookReaction.bookId()));
+        var book = bookRepository.findById(newBookReaction.bookId())
+                                 .orElseThrow(() -> new IllegalArgumentException("Book with given Id not found >> BookId: " + newBookReaction.bookId()));
 
-            userBookReactionRepository.save(UserBookReaction.builder()
-                                                            .book(book)
-                                                            .comment(newBookReaction.comment())
-                                                            .user(appUserService.findById(user.get().getUserId()))
-                                                            .numberOfStars(newBookReaction.numberOfStars() != null ? newBookReaction.numberOfStars() : 0)
-                                                            .build());
-        }
+        userBookReactionRepository.save(UserBookReaction.builder()
+                                  .book(book)
+                                  .comment(newBookReaction.comment())
+                                  .user(appUserService.findById(user.getUserId()))
+                                  .numberOfStars(newBookReaction.numberOfStars() != null ? newBookReaction.numberOfStars() : 0)
+                                  .build());
     }
 
     @Transactional
     public void editBookReaction(final UserBookReactionRequest newBookReaction) {
-        var existingUserReaction = getUserReaction(newBookReaction.bookId());
+        var existingUserReaction = findUserBookReaction(newBookReaction.bookId());
 
         if(existingUserReaction.isPresent()) {
             var reaction = existingUserReaction.get();
-            boolean shouldSave = true;
 
             if(newBookReaction.numberOfStars() != null && !Objects.equals(reaction.getNumberOfStars(), newBookReaction.numberOfStars())) {
                 reaction.setNumberOfStars(newBookReaction.numberOfStars());
-
-            } else {
-                shouldSave = false;
             }
 
             if(isNotBlank(newBookReaction.comment()) && !Objects.equals(reaction.getComment(), newBookReaction.comment())) {
                 reaction.setComment(newBookReaction.comment());
-
-            } else {
-                shouldSave = false;
             }
 
-            if(shouldSave) {
-                userBookReactionRepository.save(reaction);
-            }
+            userBookReactionRepository.save(reaction);
         }
     }
 
     @Transactional(readOnly = true)
-    public BookReactionsResponse getBookReactions(int page, final int size, final boolean comments,
-                                                  String sort, final long bookId) {
+    public BookReactionsResponse findBookReactions(int page, final int size, final boolean comments,
+                                                   final String sort, final long bookId) {
 
         page = (page > 0) ? (page - 1) : 0;
         var sorting = !equalsIgnoreCase(sort, "ASC") ? Sort.Direction.DESC
@@ -100,13 +87,12 @@ public class UserBookReactionService {
         Reaction userReaction = null;
 
         if(loggedUser != null) {
-            String username = loggedUser.getUsername();
             var iterator = result.iterator();
 
             while(iterator.hasNext()) {
                 var reaction = iterator.next();
 
-                if(reaction.getUser().getUsername().equals(username)) {
+                if(reaction.getUser().getUsername().equals(loggedUser.getUsername())) {
                     userReaction = map(reaction);
                     iterator.remove();  break;
                 }
@@ -131,14 +117,13 @@ public class UserBookReactionService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserBookReactionResponse> getUserReactions() {
-        var loggedUser = appUserService.getLoggedUserFromDb()
-                                       .orElseThrow();
+    public List<UserBookReactionResponse> findUserReactions() {
+        var loggedUser = appUserService.getLoggedUserFromDb();
 
         return Stream.ofNullable(loggedUser.getBookReactions())
                      .limit(3)
                      .flatMap(List::stream)
                      .map(_reaction -> UserBookReactionResponse.map(_reaction, BookResponse.map(_reaction.getBook())))
-                     .collect(Collectors.toCollection(LinkedList::new));
+                     .collect(toCollection(LinkedList::new));
     }
 }

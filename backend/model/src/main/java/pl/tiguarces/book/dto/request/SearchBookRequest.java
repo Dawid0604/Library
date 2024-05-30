@@ -1,9 +1,11 @@
 package pl.tiguarces.book.dto.request;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import pl.tiguarces.book.entity.BookCover;
 
 @Getter
+@EqualsAndHashCode
 public final class SearchBookRequest {
     private final int page;
     private final int size = 10;

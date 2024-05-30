@@ -1,4 +1,4 @@
-package pl.tiguarces.controller;
+package pl.tiguarces.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +18,7 @@ public class UserDetailsController {
 
     @GetMapping("/details")
     public ResponseEntity<?> getUserDetails() {
-        var result = appUserService.getLoggedUserFromDb()
-                                   .map(UserDetailsResponse::map)
-                                   .orElseThrow();
-
+        var result = UserDetailsResponse.map(appUserService.getLoggedUserFromDb());
         return new ResponseEntity<>(result, OK);
     }
 
