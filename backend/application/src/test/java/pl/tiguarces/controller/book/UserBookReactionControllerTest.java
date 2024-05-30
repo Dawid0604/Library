@@ -27,11 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SuppressWarnings("unused")
 @AutoConfigureMockMvc(addFilters = false)
-@SpringBootTest(webEnvironment = RANDOM_PORT, properties = {
-        "LIBRARY_DATABASE=localhost:52000",
-        "LIBRARY_USERNAME=suse",
-        "LIBRARY_PASSWORD=suse"
-})
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 class UserBookReactionControllerTest {
     @MockBean private UserBookReactionService userBookReactionService;
     @Autowired private MockMvc mockMvc;

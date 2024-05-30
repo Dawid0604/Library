@@ -29,11 +29,7 @@ import static pl.tiguarces.JwtUtils.REFRESH_TOKEN;
 
 @SuppressWarnings("unused")
 @AutoConfigureMockMvc(addFilters = false)
-@SpringBootTest(webEnvironment = RANDOM_PORT, properties = {
-        "LIBRARY_DATABASE=localhost:52000",
-        "LIBRARY_USERNAME=suse",
-        "LIBRARY_PASSWORD=suse"
-})
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 class AuthorizationControllerTest {
     @MockBean private AppUserService appUserService;
     @Autowired private MockMvc mockMvc;

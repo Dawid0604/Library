@@ -12,7 +12,6 @@ spring:
     password: ${LIBRARY_PASSWORD}
 
   jpa:
-    show-sql: true
     hibernate:
       ddl-auto: validate
       naming:
@@ -38,12 +37,6 @@ logging:
         web:
           servlet:
             DispatcherServlet: TRACE
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
 
 jwt:
   secret: ']]$R5@mJj[h%}Nb;x]jvirItdS+#JqJZ8$T_-}7+5Z-%zFMJfX'

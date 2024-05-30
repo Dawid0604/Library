@@ -23,11 +23,7 @@ import static pl.tiguarces.Constants.MESSAGE_KEY;
 
 @SuppressWarnings("unused")
 @AutoConfigureMockMvc(addFilters = false)
-@SpringBootTest(webEnvironment = RANDOM_PORT, properties = {
-        "LIBRARY_DATABASE=localhost:52000",
-        "LIBRARY_USERNAME=suse",
-        "LIBRARY_PASSWORD=suse"
-})
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 class ControllerExceptionHandlerTest {
     @MockBean private AppUserService appUserService;
     @Autowired private MockMvc mockMvc;

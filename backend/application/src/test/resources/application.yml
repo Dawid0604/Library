@@ -1,0 +1,35 @@
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  application:
+    name: library-application
+
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL;
+    driver-class-name: org.h2.Driver
+    username:
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: TRACE
+
+jwt:
+  secret: ']]$R5@mJj[h%}Nb;x]jvirItdS+#JqJZ8$T_-}7+5Z-%zFMJfX'
+  expirationDate: 86400000
+  refreshTokenExpirationDate: 172800000

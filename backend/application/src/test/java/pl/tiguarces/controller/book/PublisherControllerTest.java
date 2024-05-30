@@ -23,11 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SuppressWarnings("unused")
 @AutoConfigureMockMvc(addFilters = false)
-@SpringBootTest(webEnvironment = RANDOM_PORT, properties = {
-        "LIBRARY_DATABASE=localhost:52000",
-        "LIBRARY_USERNAME=suse",
-        "LIBRARY_PASSWORD=suse"
-})
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 class PublisherControllerTest {
     @MockBean private PublisherService publisherService;
     @Autowired private MockMvc mockMvc;
