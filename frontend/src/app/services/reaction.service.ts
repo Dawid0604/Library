@@ -17,7 +17,7 @@ export class ReactionService {
       params: {
         "bookId": bookId,
         "page": page,
-        "size": 10,
+        "size": 3,
         "comments": comments,
         "sort": (descSearching ? "DESC" : "ASC")
       }

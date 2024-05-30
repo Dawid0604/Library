@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
 
   isLoggedIn = false;
   isLoginFailed = false;
-  errorMessage = '';
 
   constructor(private authService: AuthService,
               private storageService: StorageService,
@@ -39,7 +38,6 @@ export class LoginComponent implements OnInit {
             window.location.href = "/home";
           },
           error: err => {
-            this.errorMessage = err.error.message;
             this.isLoginFailed = true;
           }
         });
